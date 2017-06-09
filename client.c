@@ -6,13 +6,13 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/06/06 20:00:55 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/06/07 15:05:52 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/socket.h>
 #include <sys/types.h>
-
+#include <stdlib.h>
 #include <unistd.h>//close
 #include <stdio.h>
 #include <netdb.h>
@@ -24,7 +24,7 @@
 
 #define PORT 8067
 
-int main(void)
+int main(int ac, char **argv)
 {
 	int sock = socket(AF_INET, SOCK_STREAM, 0);
 	struct hostent *hostinfo = NULL;
@@ -52,7 +52,7 @@ int main(void)
 	}
 
 	sin.sin_addr = *(struct in_addr *) hostinfo->h_addr; /* l'adresse se trouve dans le champ h_addr de la structure hostinfo */
-	sin.sin_port = htons(PORT); /* on utilise htons pour le port */
+	sin.sin_port = htons(atoi(argv[1])); /* on utilise htons pour le port */
 	sin.sin_family = AF_INET;
 
 	if(connect(sock,(struct sockaddr *) &sin, sizeof(struct sockaddr)) == SOCKET_ERROR)
@@ -65,6 +65,11 @@ int main(void)
 	{
     	perror("send()");
     	return (1);
+	}
+
+	while(42)
+	{
+		
 	}
 
 	close(sock);
