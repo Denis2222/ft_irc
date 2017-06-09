@@ -8,17 +8,18 @@ void	client_read(t_env *e, int cs)
 	int	r;
 	int	i;
 
-
+	printf("client_read(e,%d)\n", cs);
 	r = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0);
+	printf("recv() = %d\n", r)
 	if (r <= 0)
 	{
 		close(cs);
 		clean_fd(&e->fds[cs], cs);
-		printf("client #%d gone away\n", cs);
+		printf("client #%d gone away [close & clean_fd ]\n", cs);
 	}
 	else
 	{
-		printf(" fd: %d maxfd: %d  %s \n",cs, e->maxfd, e->fds[cs].buf_read);
+		printf("Buffer incoming : %s \n", e->maxfd, e->fds[cs].buf_read);
 		i = 0;
 		while (i < e->maxfd)
 		{
