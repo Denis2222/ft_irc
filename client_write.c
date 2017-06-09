@@ -8,7 +8,7 @@ void	client_write(t_env *e, int cs)
 	r = recv(cs, e->fds[cs].buf_read, BUF_SIZE - 1, 0);
 	if (r > 0)
 	{
-//		ft_printf("message receive");
+		printf("message receive%s", buffer );
 	}
 	buffer[r] = 0;
 }

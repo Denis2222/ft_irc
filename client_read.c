@@ -13,7 +13,7 @@ void	client_read(t_env *e, int cs)
 	if (r <= 0)
 	{
 		close(cs);
-		clean_fd(&e->fds[cs]);
+		clean_fd(&e->fds[cs], cs);
 		printf("client #%d gone away\n", cs);
 	}
 	else
