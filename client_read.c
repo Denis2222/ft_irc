@@ -10,7 +10,7 @@ void	client_read(t_env *e, int cs)
 
 	printf("client_read(e,%d)\n", cs);
 	r = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0);
-	printf("recv() = %d\n", r)
+	printf("recv() = %d\n", r);
 	if (r <= 0)
 	{
 		close(cs);
@@ -19,10 +19,11 @@ void	client_read(t_env *e, int cs)
 	}
 	else
 	{
-		printf("Buffer incoming : %s \n", e->maxfd, e->fds[cs].buf_read);
+		printf("Buffer incoming : '%s' \n", e->fds[cs].buf_read);
 		i = 0;
 		while (i < e->maxfd)
 		{
+			//Send to all other
 			if ((e->fds[i].type == FD_CLIENT) && (i != cs))
 			{
 				send(i, e->fds[cs].buf_read, r, 0);

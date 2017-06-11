@@ -6,23 +6,29 @@ SRCS =	main.c init_env.c clean_fd.c get_opt.c x.c main_loop.c \
 
 OBJS = ${SRCS:.c=.o}
 
-NAME = bircd
+NAME = server
 
 CFLAGS = -I. -g3 -Wall -Werror
-LDFLAGS = 
+LDFLAGS =
 
 CC = gcc
 RM = rm -f
 
-${NAME}:	${OBJS}
-		${CC} -o ${NAME} ${OBJS} ${LDFLAGS}
 
-all:		${NAME}
+client:
+	gcc client.c -o client
+
+server: ${OBJS}
+	${CC} -o ${NAME} ${OBJS} ${LDFLAGS}
+
+
+all: client server 
 
 clean:
 		${RM} ${OBJS} *~ #*#
 
 fclean:		clean
 		${RM} ${NAME}
+		rm client
 
 re:		fclean all
