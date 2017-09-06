@@ -7,9 +7,12 @@ void	client_read(t_env *e, int cs)
 {
 	int	r;
 	int	i;
+	char *buffer;
 
 	printf("client_read(e,%d)\n", cs);
 	r = recv(cs, e->fds[cs].buf_read, BUF_SIZE, 0);
+	buffer = (char*)malloc(r+1);
+	strncpy(buffer, e->fds[cs].buf_read, r);
 	printf("recv() = %d\n", r);
 	if (r <= 0)
 	{
@@ -19,17 +22,19 @@ void	client_read(t_env *e, int cs)
 	}
 	else
 	{
-		ft_printf("{red}Buffer incoming : '%s' {eoc}\n", e->fds[cs].buf_read);
+		ft_printf("{red}Buffer incoming : '%s' [%d]{eoc}\n", buffer, r);
 		i = 0;
 		while (i < e->maxfd)
 		{
 			//Send to all other
 			if ((e->fds[i].type == FD_CLIENT) && (i != cs))
 			{
-				send(i, e->fds[cs].buf_read, r, 0);
+				send(i, buffer, r, 0);
 				printf("send to [%d]\n", i);
 			}
 			i++;
 		}
 	}
+	buffer = NULL;
+	free(buffer);
 }
