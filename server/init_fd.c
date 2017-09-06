@@ -11,11 +11,12 @@ void	init_fd(t_env *e)
 	e->max = 0;
 	FD_ZERO(&e->fd_read);
 	FD_ZERO(&e->fd_write);
+	ft_printf("Init FD");
 	while (i < e->maxfd)
 	{
 		if (e->fds[i].type != FD_FREE)
 		{
-			printf("e->fds[%d] != FD_FREE\n", i);
+			//printf("e->fds[%d] != FD_FREE\n", i);
 			FD_SET(i, &e->fd_read);
 			if (strlen(e->fds[i].buf_write) > 0)
 			{
@@ -23,7 +24,7 @@ void	init_fd(t_env *e)
 				FD_SET(i, &e->fd_write);
 			}
 			e->max = MAX(e->max, i);
-			printf("e->max = %d\n", MAX(e->max, i));
+			//printf("e->max = %d\n", MAX(e->max, i));
 		}
 		i++;
 	}

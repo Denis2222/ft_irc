@@ -19,7 +19,7 @@ void	client_read(t_env *e, int cs)
 	}
 	else
 	{
-		printf("Buffer incoming : '%s' \n", e->fds[cs].buf_read);
+		ft_printf("{red}Buffer incoming : '%s' {eoc}\n", e->fds[cs].buf_read);
 		i = 0;
 		while (i < e->maxfd)
 		{

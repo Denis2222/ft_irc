@@ -1,4 +1,5 @@
-SRCS = client.c connect.c
+SRCS = client.c \
+	connect.c
 
 NAME = client
 GCC_FLAGS = -Wall -Werror

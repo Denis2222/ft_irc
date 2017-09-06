@@ -4,7 +4,7 @@
 #include "bircd.h"
 
 void		init_env(t_env *e)
-	{
+{
 	int		i;
 	struct rlimit	rlp;
 

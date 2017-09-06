@@ -17,4 +17,10 @@ void			srv_accept(t_env *e, int s)
 	e->fds[cs].type = FD_CLIENT;
 	e->fds[cs].fct_read = client_read;
 	e->fds[cs].fct_write = client_write;
+	/*
+	ft_strcpy(e->fds[cs].name,"guest[");
+	ft_strcat(e->fds[cs].name, ft_itoa(cs));
+	ft_strcat(e->fds[cs].name, "]");
+	//send(cs, e->fds[cs]->name, ft_strlen(e->fds[cs]->name), 0);
+	ft_printf(e->fds[cs].name);*/
 }
