@@ -22,11 +22,12 @@ void			srv_accept(t_env *e, int s)
 	ft_strcat(e->fds[cs].name, ft_itoa(cs));
 	ft_strcat(e->fds[cs].name, "]");
 
-
+	ft_printf("{red}%s{eoc}", e->fds[cs].name);
 	char *connectmsg;
 
 	connectmsg = ft_strjoin("NAME#", e->fds[cs].name);
+
+	ft_printf("{red}%s{eoc}", connectmsg);
 	send(cs, connectmsg, ft_strlen(connectmsg), 0);
 	free(connectmsg);
-	ft_printf(e->fds[cs].name);
 }

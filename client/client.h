@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/26 07:48:58 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/07/27 23:08:47 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/09/30 22:23:36 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <string.h>//strlen
 #include <libft.h>
 
-#define BUF_SIZE	10
+#define BUF_SIZE	1024
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
 #define PORT 8067

@@ -9,7 +9,7 @@
 # define FD_SERV	1
 # define FD_CLIENT	2
 
-# define BUF_SIZE	10
+# define BUF_SIZE	1024
 
 # define Xv(err,res,str)	(x_void(err,res,str,__FILE__,__LINE__))
 # define X(err,res,str)		(x_int(err,res,str,__FILE__,__LINE__))

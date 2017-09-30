@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/09/06 07:27:52 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/09/30 22:17:51 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,42 @@ static int read_server(int sock, char *buffer)
    return n;
 }
 
-static void write_server(int sock, const char *buffer)
+static void send_server(int sock, char *cmd)
 {
-	int size;
-
-	size = ft_strlen(buffer);
-	//while (size > 0)
-	//ft_printf("size of buffer: %d size int :%d", ft_strlen(buffer), sizeof(unsigned int));
-   	if(send(sock, buffer, strlen(buffer), 0) < 0)
+	ft_printf("Send %d, %s", ft_strlen(cmd), cmd);
+   	if(send(sock, cmd, strlen(cmd), 0) < 0)
    	{
     	perror("send()");
-    	exit(1);
+    	//exit(1);
    	}
+}
+
+static void write_server(int sock, const char *buffer)
+{
+	int offset;
+	int allsend;
+	char *packet;
+
+	allsend = 0;
+	offset = 0;
+	//ft_printf("size of buffer: %d size int :%d", ft_strlen(buffer), sizeof(unsigned int));
+
+	if (ft_strlen(buffer) > BUF_SIZE)
+	{
+		while (allsend == 0) {
+			packet = ft_strsub(buffer, offset, BUF_SIZE);
+			send_server(sock, (char *)packet);
+			if (ft_strlen(packet) < BUF_SIZE)
+			{
+				allsend = 1;
+			} else {
+				offset += BUF_SIZE;
+			}
+			free(packet);
+		}
+	} else {
+		send_server(sock, (char *)buffer);
+	}
 }
 
 int main(int ac, char **argv)
@@ -77,9 +101,8 @@ int main(int ac, char **argv)
 			ft_printf("CMD:%s\n", line);
 			ft_strcpy(buffer, line);
 
-			//if (0)
-				write_server(client.socket, buffer);
-			buffer[0] = 0;
+			write_server(client.socket, line);
+			//buffer[0] = 0;
 			//line = NULL;
 			//free(line);
 		}
@@ -91,7 +114,7 @@ int main(int ac, char **argv)
 				ft_printf("server disconnected");
 				break;
 			}
-			ft_printf("buffer incoming %s", buffer);
+			ft_printf("#{green}%s{eoc}\n", buffer);
 		}
 	}
 	close(client.socket);
