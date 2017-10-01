@@ -18,16 +18,21 @@ void			srv_accept(t_env *e, int s)
 	e->fds[cs].fct_read = client_read;
 	e->fds[cs].fct_write = client_write;
 
-	ft_strcpy(e->fds[cs].name,"guest[");
+	ft_strcpy(e->fds[cs].name,"guest");
 	ft_strcat(e->fds[cs].name, ft_itoa(cs));
-	ft_strcat(e->fds[cs].name, "]");
+	ft_strcat(e->fds[cs].name, "");
+	ft_strcpy(e->fds[cs].channel, "general");
 
 	ft_printf("{red}%s{eoc}", e->fds[cs].name);
 	char *connectmsg;
+	connectmsg = ft_mprintf("[Server] Welcome on this awesome IRC server !\n You are %s\n /nick [name] \n /join [channel name]\n /who \n=================\n", e->fds[cs].name);
+	send(cs, connectmsg, ft_strlen(connectmsg), 0);
+	free(connectmsg);
 
-	connectmsg = ft_strjoin("NAME#", e->fds[cs].name);
-
-	ft_printf("{red}%s{eoc}", connectmsg);
+	connectmsg = ft_mprintf("/nick %s\n", e->fds[cs].name);
+	send(cs, connectmsg, ft_strlen(connectmsg), 0);
+	free(connectmsg);
+	connectmsg = ft_mprintf("/channel %s\n", e->fds[cs].channel);
 	send(cs, connectmsg, ft_strlen(connectmsg), 0);
 	free(connectmsg);
 }

@@ -25,6 +25,7 @@ typedef struct	s_fd
   char			buf_read[BUF_SIZE + 1];
   char			buf_write[BUF_SIZE + 1];
   char			name[BUF_SIZE + 1];
+  char			channel[BUF_SIZE + 1];
 }				t_fd;
 
 typedef struct	s_env

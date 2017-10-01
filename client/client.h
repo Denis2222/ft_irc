@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/26 07:48:58 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/09/30 22:23:36 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/01 22:22:15 by anonymous        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ typedef struct		s_client
 	struct hostent	*hostinfo;
 	int				socket;
 	struct sockaddr_in sin;
+	char 			name[BUF_SIZE+1];
+	char			channel[BUF_SIZE+1];
 }					t_client;
 
+int connect_host(char *host, char *port, t_client *client);
 int checkhost(t_client *client);
 int checksocket (t_client *client);
 int connectsocket(t_client *client, char *port);

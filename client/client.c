@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/09/30 22:17:51 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/02 00:51:35 by anonymous        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int read_server(int sock, char *buffer)
 
 static void send_server(int sock, char *cmd)
 {
-	ft_printf("Send %d, %s", ft_strlen(cmd), cmd);
+	//ft_printf("Send %d, %s", ft_strlen(cmd), cmd);
    	if(send(sock, cmd, strlen(cmd), 0) < 0)
    	{
     	perror("send()");
@@ -65,57 +65,105 @@ static void write_server(int sock, const char *buffer)
 	}
 }
 
+int command(char *line, t_client *client, int *connect)
+{
+   char **cmd;
+
+   if (ft_strnstr(line, "/connect ", 9))
+   {
+	  //ft_printf("Join Command");
+	  cmd = ft_strsplit(line, ' ');
+	  ft_printf("connect to : %s ...\n", cmd[1]);
+	  if (connect_host(cmd[1], cmd[2], client))
+		*connect = 1;
+   } else {
+		if (*connect) {
+			write_server(client->socket, line);
+		}
+   }
+   return (0);
+}
+
+int receive_cmd(t_client *client, char *cmd)
+{
+	ft_printf("|{green}%s{eoc}|\n", cmd);
+	char **tab;
+	char **cmds;
+	int i;
+
+	i = 0;
+	cmds = ft_strsplit(cmd, '\n');
+	while (cmds[i] != '\0')
+	{
+		if (cmds[i][0] == '/') {
+			tab = ft_strsplit(cmds[i], ' ');
+			if (ft_strnstr(cmds[i], "/nick ", 6))
+			{
+				ft_strcpy(client->name, tab[1]);
+			}
+			if (ft_strnstr(cmds[i], "/channel ", 9))
+			{
+				ft_strcpy(client->channel, tab[1]);
+			}
+			ft_tabfree(tab);
+		}
+		i++;
+	}
+	ft_tabfree(cmds);
+}
+
 int main(int ac, char **argv)
 {
 	t_client client;
+	int connect;
 
-	if (checkhost(&client) == 1)
-		return (EXIT_FAILURE);
-	if (checksocket(&client) == 1)
-		return (EXIT_FAILURE);
-	if (connectsocket(&client, argv[1]) == 1)
-		return (EXIT_FAILURE);
+	ft_strcpy(client.name, "");
+	ft_strcpy(client.channel, "");
+
+	connect = 0;
+	ft_printf("{green}====CLIRC START===={eoc}\n");
+	ft_printf("Connect to server : /connect [host] [port]\n");
 
 	char buffer[BUF_SIZE];
 	fd_set	rdfs;
 
+	if (ac == 3)
+	{
+		connect_host(argv[1], argv[2], &client);
+		connect = 1;
+	}
 	while(42)
 	{
 		FD_ZERO(&rdfs);
 		FD_SET(STDIN_FILENO, &rdfs);
 		FD_SET(client.socket, &rdfs);
-		ft_printf("#:");
+		ft_printf("#[%s][%s]: ", client.channel, client.name);
 
 		if (select(client.socket + 1, &rdfs, NULL, NULL, NULL) == -1)
-		{
-			dprintf(STDERR_FILENO, "select() error");
-			return (1);
-		}
-
+ 	   	{
+ 		   dprintf(STDERR_FILENO, "select() error");
+ 		   return (1);
+ 	   	}
 		if (FD_ISSET(STDIN_FILENO, &rdfs))
 		{
 			char	*line;
-
-			get_next_line(0, &line);
-
-			ft_printf("CMD:%s\n", line);
+			get_next_line_single(STDIN_FILENO, &line);
 			ft_strcpy(buffer, line);
-
-			write_server(client.socket, line);
-			//buffer[0] = 0;
-			//line = NULL;
-			//free(line);
+			command(buffer, &client, &connect);
+			free(line);
+			line = NULL;
 		}
-		else if (FD_ISSET(client.socket, &rdfs))
+
+		if (FD_ISSET(client.socket, &rdfs))
 		{
 			int n = read_server(client.socket, buffer);
 			if (n == 0)
 			{
-				ft_printf("server disconnected");
-				break;
-			}
-			ft_printf("#{green}%s{eoc}\n", buffer);
-		}
+			   ft_printf("server disconnected");
+			   break;
+		   }
+		   receive_cmd(&client, buffer);
+	   }
 	}
 	close(client.socket);
 	return (0);

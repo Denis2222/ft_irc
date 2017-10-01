@@ -2,7 +2,7 @@ SRCS = client.c \
 	connect.c
 
 NAME = client
-GCC_FLAGS = -Wall -Werror
+GCC_FLAGS = -Werror
 CC = gcc $(GCC_FLAGS)
 SRCDIR = ./
 OBJDIR = ./objs

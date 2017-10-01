@@ -12,6 +12,17 @@
 
 #include "client.h"
 
+int connect_host(char *host, char *port, t_client *client)
+{
+	if (checkhost(client) == 1)
+		return (0);
+	if (checksocket(client) == 1)
+		return (0);
+	if (connectsocket(client, port) == 1)
+		return (0);
+	return (1);
+}
+
 int checkhost(t_client *client)
 {
 	const char		*hostname = "localhost";
@@ -23,7 +34,7 @@ int checkhost(t_client *client)
 	    dprintf (STDERR_FILENO, "Unknown host %s.\n", hostname);
 	    return (1);
 	}
-	ft_printf("host name:%s", hostinfo->h_name);
+	//ft_printf("host name: %s \n", hostinfo->h_name);
 	client->hostinfo = hostinfo;
 	return (0);
 }
@@ -55,5 +66,6 @@ int connectsocket(t_client *client, char *port)
     	perror("connect()");
     	return (1);
 	}
+	ft_printf("Connection established !\n");
 	return (0);
 }
