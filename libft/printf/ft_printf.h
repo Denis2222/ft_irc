@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/16 14:01:51 by dmoureu-          #+#    #+#             */
-/*   Updated: 2016/05/01 15:45:40 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/02 13:05:56 by anonymous        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define KUNDER "\e[4m"
 # define KBLINK "\e[5m"
 # define KINV   "\e[7m"
-# define PRINTFBUFFER 400
+# define PRINTFBUFFER 1024
 
 int					ft_printf(char *format, ...);
 int					ft_dprintf(int fd, char *format, ...);

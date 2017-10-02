@@ -54,12 +54,14 @@ void	client_read(t_env *e, int cs)
 				{
 					if ((i != cs)) // Not him
 					{
-						ft_printf("Send To %d %s %s", ft_strcmp(e->fds[i].channel, e->fds[cs].channel),e->fds[cs].channel, e->fds[i].channel );
+						//ft_printf("Send To %d %s %s", ft_strcmp(e->fds[i].channel, e->fds[cs].channel),e->fds[cs].channel, e->fds[i].channel );
 						if (ft_strcmp(e->fds[i].channel, e->fds[cs].channel) == 0) // Only same channel
 						{
-							ft_printf("Send good ");
+							//ft_printf("Send good ");
 							char *msg;
-							msg = ft_mprintf("#[%s][%s]:%s", e->fds[cs].channel, e->fds[cs].name, buffer);
+
+							//ft_printf("{red}DEBUG:%s %d{eoc}\n", buffer, ft_strlen(buffer));
+							msg = ft_mprintf("/newmsg #[%s][%s]:%s", e->fds[cs].channel, e->fds[cs].name, buffer);
 							send(i, msg, ft_strlen(msg), 0);
 							free(msg);
 							printf("send to [%d]\n", i);

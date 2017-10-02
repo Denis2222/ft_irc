@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/02 00:51:35 by anonymous        ###   ########.fr       */
+/*   Updated: 2017/10/02 15:29:32 by anonymous        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int command(char *line, t_client *client, int *connect)
 
    if (ft_strnstr(line, "/connect ", 9))
    {
-	  //ft_printf("Join Command");
 	  cmd = ft_strsplit(line, ' ');
 	  ft_printf("connect to : %s ...\n", cmd[1]);
 	  if (connect_host(cmd[1], cmd[2], client))
@@ -86,7 +85,7 @@ int command(char *line, t_client *client, int *connect)
 
 int receive_cmd(t_client *client, char *cmd)
 {
-	ft_printf("|{green}%s{eoc}|\n", cmd);
+	//ft_printf("|{green}%s{eoc}|\n", cmd);
 	char **tab;
 	char **cmds;
 	int i;
@@ -104,6 +103,10 @@ int receive_cmd(t_client *client, char *cmd)
 			if (ft_strnstr(cmds[i], "/channel ", 9))
 			{
 				ft_strcpy(client->channel, tab[1]);
+			}
+			if (ft_strnstr(cmds[i], "/newmsg ", 8))
+			{
+				ft_printf("\n%s\n", &cmd[8]);
 			}
 			ft_tabfree(tab);
 		}
@@ -164,6 +167,7 @@ int main(int ac, char **argv)
 		   }
 		   receive_cmd(&client, buffer);
 	   }
+	   ft_printf("Hey");
 	}
 	close(client.socket);
 	return (0);
