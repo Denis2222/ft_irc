@@ -1,5 +1,8 @@
 SRCS = client.c \
-	connect.c
+	connect.c \
+	cmd.c \
+	io.c \
+	loop.c
 
 NAME = client
 GCC_FLAGS = -Werror
