@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/02 16:05:37 by anonymous        ###   ########.fr       */
+/*   Updated: 2017/10/02 18:49:38 by anonymous        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ int cmd_in(t_client *client, char *cmd)
 	char **cmds;
 	int i;
 
+
 	i = 0;
 	cmds = ft_strsplit(cmd, '\n');
 	while (cmds[i] != '\0')
 	{
+		client->msg = addmsg(&client->msg, newmsg(cmds[i]));
 		if (cmds[i][0] == '/') {
 			tab = ft_strsplit(cmds[i], ' ');
 			if (ft_strnstr(cmds[i], "/nick ", 6))

@@ -1,0 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   t_msg.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anonymou <anonymou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/02 18:36:48 by anonymou          #+#    #+#             */
+/*   Updated: 2017/10/02 18:52:22 by anonymous        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "client.h"
+
+t_msg	*newmsg(char *text)
+{
+	t_msg	*msg;
+
+	msg = (t_msg *)malloc(sizeof(t_msg));
+	msg->text = ft_strdup(text);
+	msg->next = NULL;
+	return (msg);
+}
+
+t_msg	*addmsg(t_msg **lstmsg, t_msg *msg)
+{
+	t_msg	*beginlst;
+	t_msg	*current;
+
+	beginlst = *lstmsg;
+	current = beginlst;
+	if (!*lstmsg)
+		beginlst = msg;
+	else
+	{
+		while (current->next)
+			current = current->next;
+		current->next = msg;
+	}
+	return (beginlst);
+}
+
+int		lenmsg(t_msg *msg)
+{
+	int		length;
+	t_msg	*mmsg;
+
+	mmsg = msg;
+	length = 0;
+	while (mmsg)
+	{
+		length++;
+		mmsg = mmsg->next;
+	}
+	return (length);
+}

@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/02 16:15:19 by anonymous        ###   ########.fr       */
+/*   Updated: 2017/10/02 17:43:11 by anonymous        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ static init_client(t_client *client)
 	ft_strcpy(client->channel, "");
 	ft_printf("{green}====CLIRC START===={eoc}\n");
 	ft_printf("Connect to server : /connect [host] [port]\n");
+	client->lines_read = 0;
+
+	make_buffer(&client->lnbuffer);
 }
 
 int main(int ac, char **argv)
@@ -27,6 +30,20 @@ int main(int ac, char **argv)
 	fd_set	rdfs;
 
 	init_client(&client);
+
+
+
+
+	initscr();
+    cbreak();             // Immediate key input
+    nonl();               // Get return key
+    timeout(0);           // Non-blocking input
+    keypad(stdscr, 1);    // Fix keypad
+    noecho();             // No automatic printing
+    curs_set(0);          // Hide real cursor
+    intrflush(stdscr, 0); // Avoid potential graphical issues
+    leaveok(stdscr, 1);   // Don't care where cursor is left
+
 	if (ac == 3)
 	{
 		connect_host(argv[1], argv[2], &client);
@@ -43,5 +60,9 @@ int main(int ac, char **argv)
 			loop_disconnect(&client);
 	}
 	close(client.socket);
+	destroy_buffer(&client.lnbuffer);
+	delwin(stdscr);
+	endwin();
+	refresh();
 	return (0);
 }

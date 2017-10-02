@@ -2,7 +2,9 @@ SRCS = client.c \
 	connect.c \
 	cmd.c \
 	io.c \
-	loop.c
+	loop.c \
+	prompt.c \
+	t_msg.c
 
 NAME = client
 GCC_FLAGS = -Werror
@@ -22,7 +24,7 @@ $(LIBFT):
 	@echo $(SRC_LIB_O)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) -o $(NAME) $(OBJS) -lft -L../libft/
+	$(CC) -o $(NAME) $(OBJS) -lft -L../libft/ -lncurses
 
 $(addprefix $(OBJDIR)/, %.o): $(addprefix $(SRCDIR)/, %.c)
 	@mkdir -p $(OBJDIR)

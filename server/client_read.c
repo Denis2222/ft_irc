@@ -52,7 +52,7 @@ void	client_read(t_env *e, int cs)
 			{
 				if ((e->fds[i].type == FD_CLIENT))	//Send to all other
 				{
-					if ((i != cs)) // Not him
+					if (1 || (i != cs)) // Not him
 					{
 						//ft_printf("Send To %d %s %s", ft_strcmp(e->fds[i].channel, e->fds[cs].channel),e->fds[cs].channel, e->fds[i].channel );
 						if (ft_strcmp(e->fds[i].channel, e->fds[cs].channel) == 0) // Only same channel
