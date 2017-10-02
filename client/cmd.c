@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/02 18:49:38 by anonymous        ###   ########.fr       */
+/*   Updated: 2017/10/02 20:18:25 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,5 @@ int cmd_in(t_client *client, char *cmd)
 		i++;
 	}
 	ft_tabfree(cmds);
+	return (0);
 }

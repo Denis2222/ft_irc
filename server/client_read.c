@@ -50,7 +50,7 @@ void	client_read(t_env *e, int cs)
 			i = 0;
 			while (i < e->maxfd)
 			{
-				if ((e->fds[i].type == FD_CLIENT))	//Send to all other
+				if (e->fds[i].type == FD_CLIENT)	//Send to all other
 				{
 					if (1 || (i != cs)) // Not him
 					{

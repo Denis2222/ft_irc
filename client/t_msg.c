@@ -6,7 +6,7 @@
 /*   By: anonymou <anonymou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 18:36:48 by anonymou          #+#    #+#             */
-/*   Updated: 2017/10/02 18:52:22 by anonymous        ###   ########.fr       */
+/*   Updated: 2017/10/02 20:38:15 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_msg	*addmsg(t_msg **lstmsg, t_msg *msg)
 		beginlst = msg;
 	else
 	{
+		//ft_printf("%p %p ", current, current->next);
 		while (current->next)
 			current = current->next;
 		current->next = msg;

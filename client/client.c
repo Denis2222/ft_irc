@@ -6,15 +6,16 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/02 17:43:11 by anonymous        ###   ########.fr       */
+/*   Updated: 2017/10/02 20:31:38 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static init_client(t_client *client)
+static void init_client(t_client *client)
 {
 	client->connect = 0;
+	client->msg = NULL;
 	ft_strcpy(client->name, "");
 	ft_strcpy(client->channel, "");
 	ft_printf("{green}====CLIRC START===={eoc}\n");

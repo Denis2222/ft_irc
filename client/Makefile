@@ -7,7 +7,7 @@ SRCS = client.c \
 	t_msg.c
 
 NAME = client
-GCC_FLAGS = -Werror
+GCC_FLAGS = -Werror -g
 CC = gcc $(GCC_FLAGS)
 SRCDIR = ./
 OBJDIR = ./objs
