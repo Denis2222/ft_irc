@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/02 17:55:09 by anonymous        ###   ########.fr       */
+/*   Updated: 2017/10/04 05:22:23 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int retrieve_content(struct input_line *buf, char *target, int max_len) {
 void add_char(struct input_line *buf, char ch) {
     // Ensure enough space for new character
     if(buf->length == buf->capacity) {
-        int ncap = buf->capacity + 128;
+        int ncap = buf->capacity + 1024;
         char *nln = (char*) realloc(buf->ln, ncap);
         if(!nln) {
             // Out of memory!

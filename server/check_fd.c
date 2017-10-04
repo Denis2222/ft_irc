@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/11 06:27:42 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/06/11 06:27:45 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 08:51:53 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	check_fd(t_env *e)
 	int	i;
 
 	i = 0;
-	printf("check_fd(): e->r = %d\n", e->r);
 	while ((i < e->maxfd) && (e->r > 0))
 	{
 		if (FD_ISSET(i, &e->fd_read))

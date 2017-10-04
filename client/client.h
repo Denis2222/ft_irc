@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/26 07:48:58 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/02 18:43:32 by anonymous        ###   ########.fr       */
+/*   Updated: 2017/10/04 10:05:28 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #define INVALID_SOCKET -1
 #define SOCKET_ERROR -1
 #define PORT 8067
+#define PROMPT_SIZE_MAX 16384
 
 struct input_line {
     char *ln;
@@ -40,6 +41,7 @@ typedef struct		s_msg
 {
 	char 			*text;
 	struct s_msg	*next;
+	int				color;
 }					t_msg;
 
 typedef struct		s_client
@@ -67,9 +69,9 @@ int checksocket (t_client *client);
 int connectsocket(t_client *client, char *port);
 
 int cmd_out(char *line, t_client *client);
-int cmd_in(t_client *client, char *cmd);
+int cmd_in(t_client *client);
 
-int read_server(int sock, char *buffer);
+char *read_server(int sock, int *n);
 void send_server(int sock, char *cmd);
 void write_server(int sock, const char *buffer);
 
@@ -86,6 +88,6 @@ int handle_input(struct input_line *buf, char *target, int max_len, int key);
 int get_line_non_blocking(struct input_line *buf, char *target, int max_len);
 
 
-t_msg	*newmsg(char *text);
+t_msg	*newmsg(char *text, t_client *client);
 t_msg	*addmsg(t_msg **lstmsg, t_msg *msg);
 int		lenmsg(t_msg *msg);

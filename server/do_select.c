@@ -4,6 +4,8 @@
 
 void	do_select(t_env *e)
 {
-	printf("do_select()\n");
-	e->r = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, NULL);
+	struct timeval timeout;
+
+	timeout.tv_sec = 30;
+	e->r = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, &timeout);
 }

@@ -11,7 +11,7 @@ void	init_fd(t_env *e)
 	e->max = 0;
 	FD_ZERO(&e->fd_read);
 	FD_ZERO(&e->fd_write);
-	ft_printf("Init FD");
+
 	while (i < e->maxfd)
 	{
 		if (e->fds[i].type != FD_FREE)

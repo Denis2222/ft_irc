@@ -10,7 +10,9 @@ SRCS =	main.c \
 	srv_create.c \
 	srv_accept.c \
 	client_read.c \
-	client_write.c
+	client_write.c \
+	input.c \
+	send.c
 
 NAME = server
 GCC_FLAGS = -Wall -Werror

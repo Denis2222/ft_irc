@@ -4,18 +4,19 @@
 # include <sys/select.h>
 # include <stdio.h>
 #include <libft.h>
+#include <sys/socket.h>
 
 # define FD_FREE	0
 # define FD_SERV	1
 # define FD_CLIENT	2
 
-# define BUF_SIZE	1024
+# define BUF_SIZE	2048
 
 # define Xv(err,res,str)	(x_void(err,res,str,__FILE__,__LINE__))
 # define X(err,res,str)		(x_int(err,res,str,__FILE__,__LINE__))
 # define MAX(a,b)	((a > b) ? a : b)
 
-# define USAGE		"Usage: %s port\n"
+# define USAGE		"Usage: %s [port 9999]\n"
 
 typedef struct	s_fd
 {
@@ -52,5 +53,8 @@ void	*x_void(void *err, void *res, char *str, char *file, int line);
 void	init_fd(t_env *e);
 void	do_select(t_env *e);
 void	check_fd(t_env *e);
+
+void input(t_env *e, int cs, char *buffer, size_t r);
+void write_client(int sock, char *buffer);
 
 #endif /* !BIRCD_H_ */

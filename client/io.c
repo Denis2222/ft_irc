@@ -6,61 +6,75 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/02 15:46:55 by anonymous        ###   ########.fr       */
+/*   Updated: 2017/10/04 11:00:44 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-int read_server(int sock, char *buffer)
+char *read_server(int sock, int *n)
 {
-   int n = 0;
+	int	r;
+	char buf[BUFF_SIZE+1];
+	char *buffer;
+	size_t toread = 0;
+	size_t read = 0;
 
-   if((n = recv(sock, buffer, BUF_SIZE - 1, 0)) < 0)
-   {
-      perror("recv()");
-      exit(1);
-   }
-
-   buffer[n] = 0;
-
-   return n;
+	buffer = NULL;
+	r = recv(sock, &toread, sizeof(size_t), 0);
+	ft_printf("\nReceive : %d octet\n", toread);
+	if (r <= 0 || toread == 0)
+	{
+		close(sock);
+		ft_printf("Server gone Offline\n", sock);
+		return(NULL);
+	}
+	buffer = ft_strnew(toread+1);
+	ft_bzero(buf, BUFF_SIZE + 1);
+	while ((r = recv(sock, buf, BUF_SIZE, 0)) > 0 && toread > 0)
+	{
+		read+= r;
+		toread-=r;
+		ft_strcat(buffer, buf);
+		ft_bzero(buf, BUF_SIZE);
+		if (toread == 0)
+			break;
+	}
+	*n = read;
+	return (buffer);
 }
 
-void send_server(int sock, char *cmd)
+int sendall(int s, void *buf, size_t *len)
 {
-	//ft_printf("Send %d, %s", ft_strlen(cmd), cmd);
-   	if(send(sock, cmd, strlen(cmd), 0) < 0)
-   	{
-    	perror("send()");
-    	//exit(1);
-   	}
+    size_t total = 0;        // how many bytes we've sent
+    size_t bytesleft = *len; // how many we have left to send
+    size_t n;
+
+    while(total < *len) {
+        n = send(s, buf+total, bytesleft, 0);
+        if (n == -1)
+		{
+			break;
+		}
+        total += n;
+        bytesleft -= n;
+    }
+    *len = total;
+    if (n == -1)
+		return (-1);
+	return (0);
 }
 
 void write_server(int sock, const char *buffer)
 {
-	int offset;
-	int allsend;
-	char *packet;
+	size_t i;
+	size_t sizeoftruc;
 
-	allsend = 0;
-	offset = 0;
-	//ft_printf("size of buffer: %d size int :%d", ft_strlen(buffer), sizeof(unsigned int));
-
-	if (ft_strlen(buffer) > BUF_SIZE)
+	sizeoftruc = sizeof(size_t);
+	i = ft_strlen(buffer);
+	if (i > 0)
 	{
-		while (allsend == 0) {
-			packet = ft_strsub(buffer, offset, BUF_SIZE);
-			send_server(sock, (char *)packet);
-			if (ft_strlen(packet) < BUF_SIZE)
-			{
-				allsend = 1;
-			} else {
-				offset += BUF_SIZE;
-			}
-			free(packet);
-		}
-	} else {
-		send_server(sock, (char *)buffer);
+		sendall(sock, &i,&sizeoftruc );
+		sendall(sock, (char *)buffer, &i);
 	}
 }
