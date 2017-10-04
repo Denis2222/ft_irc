@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/26 07:48:58 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 10:05:28 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 15:54:49 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,11 @@ void add_char(struct input_line *buf, char ch);
 int handle_input(struct input_line *buf, char *target, int max_len, int key);
 int get_line_non_blocking(struct input_line *buf, char *target, int max_len);
 
-
+//t_msg.c
 t_msg	*newmsg(char *text, t_client *client);
 t_msg	*addmsg(t_msg **lstmsg, t_msg *msg);
 int		lenmsg(t_msg *msg);
+
+//view.c
+void render_text(t_client *client);
+void view(t_client *client);

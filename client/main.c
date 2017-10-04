@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 10:40:19 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 15:52:41 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void init_client(t_client *client)
 	ft_strcpy(client->name, "");
 	ft_strcpy(client->channel, "");
 	client->lines_read = 0;
-
 	make_buffer(&client->lnbuffer);
 }
 
@@ -64,7 +63,6 @@ int main(int ac, char **argv)
 	{
 		if (client.connect)
 		{
-			//ft_printf("While 42 loop\n");
 			if (!loop_connect(&rdfs, &client))
 				break;
 		}

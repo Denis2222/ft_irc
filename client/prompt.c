@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 05:22:23 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 12:57:20 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void add_char(struct input_line *buf, char ch) {
 }
 
 int handle_input(struct input_line *buf, char *target, int max_len, int key) {
+	if (key == KEY_RESIZE)
+		return (0);
     if(!(key & KEY_CODE_YES) && isprint(key)) {
         add_char(buf, key);
         return 0;

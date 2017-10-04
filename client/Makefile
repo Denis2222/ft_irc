@@ -1,10 +1,12 @@
-SRCS = client.c \
+SRCS = main.c \
 	connect.c \
 	cmd.c \
-	io.c \
-	loop.c \
+	io_read.c \
+	io_write.c \
+	main_loop.c \
 	prompt.c \
-	t_msg.c
+	t_msg.c \
+	view.c
 
 NAME = client
 GCC_FLAGS = -Werror -g
