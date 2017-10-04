@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 11:04:01 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 12:31:29 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,31 @@ int cmd_in(t_client *client)
 		ft_printf("server disconnected");
 		return (0);
 	}
-	ft_printf("cmd in BUFFER:[%s][%d]\n", cmd, ft_strlen(cmd));
+	//ft_printf("cmd in BUFFER:[%s][%d]\n", cmd, ft_strlen(cmd));
 	i = 0;
 	cmds = ft_strsplit(cmd, '\n');
+	ft_printf("%d", ft_tablen(cmds));
 	while (cmds[i] != '\0')
 	{
 		if (cmds[i][0] == '/') {
 			tab = ft_strsplit(cmds[i], ' ');
+			//ft_printf("VOUS ETES ICI !!!!!!!!!!!!!!!!!!!!!!");
 			if (ft_strnstr(cmds[i], "/nick ", 6))
 			{
+
 				ft_strcpy(client->name, tab[1]);
+				ft_printf("Change name");
 			}
-			if (ft_strnstr(cmds[i], "/join ", 9))
+			if (ft_strnstr(cmds[i], "/join ", 6))
 			{
+				ft_printf("Change channel");
 				ft_strcpy(client->channel, tab[1]);
 			}
-			if (ft_strnstr(cmds[i], "/newmsg ", 8))
+			ft_printf("{%s}", cmds[i]);
+			if (ft_strncmp(cmds[i], "/newmsg", 7) == 0)
 			{
-				ft_printf("\n%s\n", &cmd[8]);
-				client->msg = addmsg(&client->msg, newmsg(&cmds[i][8], client));
+				ft_printf("\nNEW MESSAGE  %s\n", &cmds[i][7]);
+				client->msg = addmsg(&client->msg, newmsg(&cmds[i][7], client));
 			}
 			ft_tabfree(tab);
 		}
@@ -72,5 +78,6 @@ int cmd_in(t_client *client)
 	free(cmd);
 	cmd = NULL;
 	ft_tabfree(cmds);
+	//exit(0);
 	return (0);
 }

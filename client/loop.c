@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 11:04:02 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 11:05:50 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,11 @@ int loop_connect(fd_set *rdfs, t_client *client)
 	}
 	if (FD_ISSET(STDIN_FILENO, rdfs))
 	{
-		ft_printf("IN");
 		events(client);
 	}
 
 	if (FD_ISSET(client->socket, rdfs))
 	{
-	   ft_printf("OUT");
 	   cmd_in(client);
 	   events(client);
    }

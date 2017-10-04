@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 11:00:44 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 11:47:54 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,20 @@ char *read_server(int sock, int *n)
 	}
 	buffer = ft_strnew(toread+1);
 	ft_bzero(buf, BUFF_SIZE + 1);
+	ft_printf("T OU PTAIN 1er");
 	while ((r = recv(sock, buf, BUF_SIZE, 0)) > 0 && toread > 0)
 	{
+		ft_printf("Wololo  %d ", r);
 		read+= r;
 		toread-=r;
+		ft_printf("T OU PTAIN2eme  %d %d", toread, read);
 		ft_strcat(buffer, buf);
 		ft_bzero(buf, BUF_SIZE);
+		ft_printf("|%s|", buffer);
 		if (toread == 0)
 			break;
 	}
+	ft_printf("\nReceive : %d octet bis \n", toread);
 	*n = read;
 	return (buffer);
 }
