@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 12:31:29 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 18:06:16 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int cmd_out(char *line, t_client *client)
 		client->connect = 1;
    } else {
 		if (client->connect) {
+			line[ft_strlen(line)] = '\n';
 			write_server(client->socket, line);
 		}
    }

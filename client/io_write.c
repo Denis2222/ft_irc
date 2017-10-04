@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 15:56:43 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 15:56:50 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 17:15:06 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,15 @@ int sendall(int s, void *buf, size_t *len)
 	return (0);
 }
 
-void write_server(int sock, const char *buffer)
+void write_server(int sock, char *buffer)
 {
+	int nb;
 	size_t i;
-	size_t sizeoftruc;
 
-	sizeoftruc = sizeof(size_t);
+	ft_printf("OK");
 	i = ft_strlen(buffer);
 	if (i > 0)
 	{
-		sendall(sock, &i,&sizeoftruc );
-		sendall(sock, (char *)buffer, &i);
+		sendall(sock, buffer, &i);
 	}
 }

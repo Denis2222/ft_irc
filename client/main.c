@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 15:52:41 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 17:14:21 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ int main(int ac, char **argv)
 
 	init_client(&client);
 
-/*
-	FILE *f = fopen("/dev/ttys001", "r+");
+
+	FILE *f = fopen("/dev/ttys006", "r+");
   	SCREEN *debug = newterm(NULL, stdout, f);
 
 
-	SCREEN *screen = newterm(NULL, f, stdin);*/
+	SCREEN *screen = newterm(NULL, f, stdin);
 	//struct screen scr = initscr();
 
-	initscr();
-	//newterm(NULL, stdout, stdin);
+	set_term(screen);
+	//initscr();
+
+	newterm(NULL, stdout, stdin);
 	start_color();
     cbreak();             // Immediate key input
     nonl();               // Get return key

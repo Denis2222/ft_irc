@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 15:58:01 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 17:17:46 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ char *read_server(int sock, int *n)
 	ft_bzero(buf, BUFF_SIZE + 1);
 	while ((r = recv(sock, buf, BUF_SIZE, 0)) > 0 && toread > 0)
 	{
-		read+= r;
-		toread-=r;
+		read += r;
+		toread -= r;
 		ft_strcat(buffer, buf);
 		ft_bzero(buf, BUF_SIZE);
 		if (toread == 0)

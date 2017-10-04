@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 06:26:59 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 15:14:00 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/04 18:01:27 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,13 +155,23 @@ void input_command(t_env *e, int cs, char *buffer, size_t r)
 
 void input(t_env *e, int cs, char *buffer, size_t r)
 {
-	if (buffer[0] == '/')
+	ft_strcat(e->fds[cs].buf_read, buffer);
+	if (!ft_strchr(e->fds[cs].buf_read,'\n')) //Incomplet
 	{
-		input_command(e, cs, buffer, r);
+
 	}
-	else
+	else if (ft_strchr(e->fds[cs].buf_read,'\n')) // Complet
 	{
-		input_message(e, cs, buffer, r);
+		if (buffer[0] == '/')
+		{
+			input_command(e, cs, e->fds[cs].buf_read, r);
+		}
+		else
+		{
+			input_message(e, cs, e->fds[cs].buf_read, r);
+		}
+		bzero(e->fds[cs].buf_read, BUF_SIZE);
 	}
-	free(buffer);
+	if (buffer)
+		free(buffer);
 }
