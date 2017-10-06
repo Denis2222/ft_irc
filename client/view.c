@@ -35,25 +35,18 @@ void view(t_client *client)
 	client->promptbox = subwin(stdscr, 4, COLS, LINES -4, 0);
 	scrollok(client->chatbox, TRUE);
 	scrollok(client->promptbox, TRUE);
-	//mvwprintw(client->promptbox, 1, 1, "Nickname");
-
 	render_text(client);
-
 	wmove(client->promptbox, 1, 1);
 	render_line(&client->lnbuffer, client->promptbox);
-
 	wmove(client->infobox, 1, 1);
 	waddstr(client->infobox, "Nickname :");
 	waddstr(client->infobox, client->name);
 	waddstr(client->infobox, " | Channel :");
 	waddstr(client->infobox, client->channel);
 	waddstr(client->infobox, " | NB Message :");
-	//waddstr(client->infobox, ft_itoa(lenmsg(client->msg)));//LEAKS
-
 	box(client->infobox, ACS_VLINE, ACS_HLINE);
 	box(client->chatbox, ACS_VLINE, ACS_HLINE);
 	box(client->promptbox, ACS_VLINE, ACS_HLINE);
-
 	wrefresh(client->chatbox);
 	wrefresh(client->infobox);
 	wrefresh(client->promptbox);

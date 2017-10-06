@@ -21,7 +21,7 @@ static void events(t_client *client)
 	if (NCURSE)
 	{
 		len = get_line_non_blocking(&client->lnbuffer, ln, sizeof(ln));
-		if(len > 0) {
+		if(len > 0 && ft_strlen(ln)) {
 			if(strcmp(ln, "exit") == 0) {
 				ft_printf("Exit ask");
 			}
@@ -47,7 +47,11 @@ int loop(t_client *client)
 	FD_ZERO(&client->fd_write);
 	FD_SET(STDIN_FILENO, &client->fd_read);
 	if (client->connect)
+	{
 		FD_SET(client->socket, &client->fd_read);
+		if (ft_strlen(client->buf_write))
+			FD_SET(client->socket, &client->fd_write);
+	}
 	if (select(client->socket + 1, &client->fd_read, &client->fd_write, NULL, NULL) == -1)
 	{
 		return (1);
@@ -58,6 +62,7 @@ int loop(t_client *client)
 		view(client);
 	}
 	if (client->connect)
+	{
 		if (FD_ISSET(client->socket, &client->fd_read))
 		{
 			if (read_server(client) == 0)
@@ -68,7 +73,9 @@ int loop(t_client *client)
 			cmd_in(client);
 			refresh();
 			view(client);
+		}
+		if (FD_ISSET(client->socket, &client->fd_write))
+			server_write(client);
 	}
-
    return (1);
 }

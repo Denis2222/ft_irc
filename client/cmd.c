@@ -27,7 +27,7 @@ int cmd_out(char *line, t_client *client)
 		if (client->connect) {
 			line[ft_strlen(line)] = '\n';
 			line[ft_strlen(line)+1] = 0;
-			write_server(client->socket, line);
+			presend(client, line);
 		}
    }
    return (0);
@@ -59,11 +59,11 @@ int cmd_in(t_client *client)
 	char **tab;
 	char *cmd;
 
-	if (ft_strlen(client->buffer) > 0)
+	if (ft_strlen(client->buf_read) > 0)
 	{
-		if (ft_strchr(client->buffer, '\n'))
+		if (ft_strchr(client->buf_read, '\n'))
 		{
-			cmd = cmd_from_buffer(client->buffer);
+			cmd = cmd_from_buffer(client->buf_read);
 			if (cmd[0] == '/') {
 				tab = ft_strsplit(cmd, ' ');
 				if (ft_strnstr(cmd, "/nick ", 6))

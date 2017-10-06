@@ -12,36 +12,37 @@
 
 #include "client.h"
 
-int sendall(int s, void *buf, size_t *len)
+void	server_write(t_client *e)
 {
-    size_t total = 0;        // how many bytes we've sent
-    size_t bytesleft = *len; // how many we have left to send
-    size_t n;
+    char tmp[BUF_SIZE + 1]; 
+    int res;
 
-    while(total < *len) {
-        n = send(s, buf+total, bytesleft, 0);
-        if (n == -1)
-		{
-			break;
-		}
-        total += n;
-        bytesleft -= n;
+    res = send(e->socket, e->buf_write, 1, 0);
+    if (res > 0)
+    {
+        ft_strcpy(tmp, &e->buf_write[res]);
+        ft_bzero(e->buf_write, BUF_SIZE + 1);
+        ft_strcpy(e->buf_write, tmp);
     }
-    *len = total;
-    if (n == -1)
-		return (-1);
-	return (0);
+	if (res == 0)
+	{
+		ft_printf("Server disconnect");
+    }
+    return ;
 }
 
-void write_server(int sock, char *buffer)
+void presend(t_client *e, char *cmd)
 {
-	int nb;
-	size_t i;
+	char *sc;
 
-	ft_printf("OK");
-	i = ft_strlen(buffer);
-	if (i > 0)
+	sc = e->buf_write;
+	if (ft_strlen(sc) + ft_strlen(cmd) > BUF_SIZE)
 	{
-		sendall(sock, buffer, &i);
+		ft_printf("Buffer Overflow !!! Trash that or Disconnect this spam er!");
+		return ;
 	}
+	
+	if (ft_strlen(sc))
+		ft_strcat(sc, "\n");
+	ft_strcat(sc, cmd);
 }

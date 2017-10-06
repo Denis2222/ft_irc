@@ -17,12 +17,12 @@ int read_server(t_client *client)
 	int head;
 	int res;
 
-	head = ft_strlen(client->buffer);
+	head = ft_strlen(client->buf_read);
 
-	res = recv(client->socket, &client->buffer[head], 1, 0);
+	res = recv(client->socket, &client->buf_read[head], 1, 0);
 	if (res > 0)
 	{
-		client->buffer[head+res] = 0;
+		client->buf_read[head+res] = 0;
 		return (1);
 	}
 	else if (res < 0)

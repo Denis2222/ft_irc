@@ -82,6 +82,10 @@ int read_server(t_client *client);
 void send_server(int sock, char *cmd);
 void write_server(int sock, char *buffer);
 
+
+void	server_write(t_client *e);
+void 	presend(t_client *e, char *cmd);
+
 int loop(t_client *client);
 
 void make_buffer(struct input_line *buf);
