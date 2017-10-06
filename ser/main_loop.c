@@ -15,7 +15,7 @@
 
 void	main_loop(t_env *e)
 {
-	printf("FT_IRC Ready on port [%d]:\n", e->port);
+	ft_printf("FT_IRC Ready on port [%d]:\n", e->port);
 	while (1)
 	{
 		init_fd(e);

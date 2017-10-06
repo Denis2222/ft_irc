@@ -117,15 +117,17 @@ void input_command(t_env *e, int cs, char *buffer)
 
 	ft_printf("CMD:%s %s %s\n", e->fds[cs].channel, e->fds[cs].name, buffer);
 	tab = ft_strsplit(buffer, ' ');
-	if (ft_strnstr(buffer, "/nick ", 6))
+	if (ft_strnstr(buffer, "/nick ", 6) && ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]))
 	{
-		ft_strcpy(e->fds[cs].name, tab[1]);
-
-		str = ft_mprintf("%s\n/newmsg [%s][server] : Nickname changed to %s\n", buffer,e->fds[cs].channel, e->fds[cs].name);
-		presend(e, cs, str);
-		free(str);
+		if (!search_user(e, tab[1]))
+		{
+			ft_strcpy(e->fds[cs].name, tab[1]);
+			str = ft_mprintf("%s\n/newmsg [%s][server] : Nickname changed to %s\n", buffer,e->fds[cs].channel, e->fds[cs].name);
+			presend(e, cs, str);
+			free(str);
+		}
 	}
-	if (ft_strnstr(buffer, "/join ", 6))
+	if (ft_strnstr(buffer, "/join ", 6) && ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]))
 	{
 		ft_strcpy(e->fds[cs].channel, tab[1]);
 		presend(e, cs, buffer);
@@ -133,7 +135,7 @@ void input_command(t_env *e, int cs, char *buffer)
 
 	}
 
-	if (ft_strncmp(buffer, "/msg", 2) == 0)
+	if (ft_strncmp(buffer, "/msg", 2) == 0 && ft_tablen(tab) > 2 && tab[1] && tab[1] && ft_strlen(tab[1]))
 	{
 		private_message(e, cs, buffer);
 	}

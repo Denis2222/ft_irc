@@ -17,7 +17,7 @@ void	server_write(t_client *e)
     char tmp[BUF_SIZE + 1]; 
     int res;
 
-    res = send(e->socket, e->buf_write, 1, 0);
+    res = send(e->socket, e->buf_write, SPEED_MAX, 0);
     if (res > 0)
     {
         ft_strcpy(tmp, &e->buf_write[res]);
