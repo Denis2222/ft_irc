@@ -20,7 +20,7 @@ void	init_fd(t_env *e)
 			FD_SET(i, &e->fd_read);
 			if (strlen(e->fds[i].buf_write) > 0)
 			{
-				printf("strlen(e->fds[%d].buf_write) > 0 \n", i);
+				//printf("strlen(e->fds[%d].buf_write) > 0 \n", i);
 				FD_SET(i, &e->fd_write);
 			}
 			e->max = MAX(e->max, i);

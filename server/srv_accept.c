@@ -22,11 +22,13 @@ void			srv_accept(t_env *e, int s)
 	ft_strcat(e->fds[cs].name, ft_itoa(cs));
 	ft_strcat(e->fds[cs].name, "");
 	ft_strcpy(e->fds[cs].channel, "general");
+	bzero(e->fds[cs].buf_read, BUF_SIZE+1);
+	bzero(e->fds[cs].buf_write, BUF_SIZE+1);
 
 	ft_printf("{red}%s{eoc}", e->fds[cs].name);
 	char *connectmsg;
-	connectmsg = ft_mprintf("/nick %s\n/join %s\n/newmsg ===================\n/newmsg ===================\n/newmsg [Server]Welcome IRC\n/newmsg ===================\n/newmsg ===================", e->fds[cs].name, e->fds[cs].channel);
+	connectmsg = ft_mprintf("/nick %s\n/join %s\n/newmsg ===================\n/newmsg ===================\n/newmsg [Server]Welcome IRC\n/newmsg ===================\n/newmsg ===================\n", e->fds[cs].name, e->fds[cs].channel);
 	ft_printf("Send all %s", connectmsg);
-	write_client(cs, connectmsg);
+	presend(e, cs, connectmsg);
 	free(connectmsg);
 }

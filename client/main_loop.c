@@ -14,19 +14,31 @@
 
 static void events(t_client *client)
 {
+
 	char ln[PROMPT_SIZE_MAX];
 	int len = 0;
 
-	len = get_line_non_blocking(&client->lnbuffer, ln, sizeof(ln));
-	if(len > 0) {
-		if(strcmp(ln, "exit") == 0) {
-			//break;
-			ft_printf("Exit ask");
+	if (NCURSE)
+	{
+		len = get_line_non_blocking(&client->lnbuffer, ln, sizeof(ln));
+		if(len > 0) {
+			if(strcmp(ln, "exit") == 0) {
+				ft_printf("Exit ask");
+			}
+			cmd_out(ln, client);
+			bzero(ln, PROMPT_SIZE_MAX);
+			view(client);
+			refresh();
 		}
-		cmd_out(ln, client);
 	}
-	clear();
-	view(client);
+	else
+	{
+		char	*line;
+		get_next_line_single(STDIN_FILENO, &line);
+		cmd_out(line, client);
+		free(line);
+		line = NULL;
+	}
 }
 
 int loop_connect(fd_set *rdfs, t_client *client)
@@ -43,15 +55,18 @@ int loop_connect(fd_set *rdfs, t_client *client)
 	}
 	if (FD_ISSET(STDIN_FILENO, rdfs))
 	{
-		clear();
 		events(client);
+		view(client);
 	}
 
 	if (FD_ISSET(client->socket, rdfs))
 	{
-	   cmd_in(client);
-	   events(client);
+		read_server(client);
+		cmd_in(client);
+		refresh();
+		view(client);
    }
+
    return (1);
 }
 

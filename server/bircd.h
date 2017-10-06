@@ -54,7 +54,8 @@ void	init_fd(t_env *e);
 void	do_select(t_env *e);
 void	check_fd(t_env *e);
 
-void input(t_env *e, int cs, char *buffer, size_t r);
+void input(t_env *e, int cs, char *buffer);
 void write_client(int sock, char *buffer);
+void presend(t_env *e, int cs, char *cmd);
 
 #endif /* !BIRCD_H_ */

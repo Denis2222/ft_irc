@@ -12,7 +12,7 @@
 
 #include "bircd.h"
 
-void input_message(t_env *e, int cs, char *buffer, size_t r)
+void input_message(t_env *e, int cs, char *buffer)
 {
 	int	i;
 
@@ -23,20 +23,15 @@ void input_message(t_env *e, int cs, char *buffer, size_t r)
 		{
 			if (1 || (i != cs)) // Not him
 			{
-				//ft_printf("Send To %d %s %s", ft_strcmp(e->fds[i].channel, e->fds[cs].channel),e->fds[cs].channel, e->fds[i].channel );
 				if (ft_strcmp(e->fds[i].channel, e->fds[cs].channel) == 0) // Only same channel
 				{
-					//ft_printf("Send good ");
 					char *msg;
 
-					//ft_printf("{red}DEBUG:%s %d{eoc}\n", buffer, ft_strlen(buffer));
-					msg = ft_mprintf("/newmsg [%s][%s]:%s", e->fds[cs].channel, e->fds[cs].name, buffer);
-
-					//send(i, msg, ft_strlen(msg), 0);
-					ft_printf("->%s\n", msg);
-					write_client(i, msg);
+					msg = ft_mprintf("/newmsg [%s][%s]:%s\n", e->fds[cs].channel, e->fds[cs].name, buffer);
+					ft_printf("#%d -> %s\n",i,  msg);
+					presend(e, i, msg);
 					free(msg);
-					printf("send to [%d]\n", i);
+
 				}
 			}
 		}
@@ -63,7 +58,7 @@ char *who_list(t_env *e, int cs)
 		i++;
 	}
 
-	tmp = ft_mprintf("/newmsg [%s][server]User in channel: %s", e->fds[cs].channel, str);
+	tmp = ft_mprintf("/newmsg [%s][server]User in channel: %s\n", e->fds[cs].channel, str);
 	free(str);
 	return (tmp);
 }
@@ -84,7 +79,7 @@ int search_user(t_env *e, char *nick)
 	return (0);
 }
 
-int private_message(t_env *e, int cs, char *buffer, size_t r)
+int private_message(t_env *e, int cs, char *buffer)
 {
 	char **tab;
 	char *nick;
@@ -101,12 +96,12 @@ int private_message(t_env *e, int cs, char *buffer, size_t r)
 	if ((i = search_user(e, nick)) > 0)
 	{
 		texte = ft_strstr(buffer, nick) + ft_strlen(nick);
-		send = ft_mprintf("/newmsg [private][%s]:[%s]:%s", e->fds[cs].name, nick, texte);
-		write_client(i, send);
+		send = ft_mprintf("/newmsg [private][%s]:[%s]:%s\n", e->fds[cs].name, nick, texte);
+		presend(e, i, send);
 		free(send);
 
-		send = ft_mprintf("/newmsg [private][%s]:[%s]:%s", e->fds[cs].name, nick, texte);
-		write_client(cs, send);
+		send = ft_mprintf("/newmsg [private][%s]:[%s]:%s\n", e->fds[cs].name, nick, texte);
+		presend(e, cs, send);
 		free(send);
 		ft_printf("Send to : %s -> %s", nick, send);
 		return (0);
@@ -115,7 +110,7 @@ int private_message(t_env *e, int cs, char *buffer, size_t r)
 	return (1);
 }
 
-void input_command(t_env *e, int cs, char *buffer, size_t r)
+void input_command(t_env *e, int cs, char *buffer)
 {
 	char **tab;
 	char  *str;
@@ -126,52 +121,43 @@ void input_command(t_env *e, int cs, char *buffer, size_t r)
 	{
 		ft_strcpy(e->fds[cs].name, tab[1]);
 
-		str = ft_mprintf("%s\n/newmsg [%s][server] : Nickname changed to %s", buffer,e->fds[cs].channel, e->fds[cs].name);
-		write_client(cs, str);
+		str = ft_mprintf("%s\n/newmsg [%s][server] : Nickname changed to %s\n", buffer,e->fds[cs].channel, e->fds[cs].name);
+		presend(e, cs, str);
 		free(str);
 	}
 	if (ft_strnstr(buffer, "/join ", 6))
 	{
 		ft_strcpy(e->fds[cs].channel, tab[1]);
-		write_client(cs, buffer);
+		presend(e, cs, buffer);
+		presend(e, cs, "\n");
 
 	}
 
 	if (ft_strncmp(buffer, "/msg", 2) == 0)
 	{
-		private_message(e, cs, buffer, r);
+		private_message(e, cs, buffer);
 	}
 
 	if (ft_strncmp(buffer, "/who", 2) == 0)
 	{
 		ft_printf("Detected");
 		str = who_list(e, cs);
-		write_client(cs, str);
+		presend(e, cs, str);
+		presend(e, cs, "\n");
 		free(str);
 	}
 
 	ft_tabfree(tab);
 }
 
-void input(t_env *e, int cs, char *buffer, size_t r)
+void input(t_env *e, int cs, char *buffer)
 {
-	ft_strcat(e->fds[cs].buf_read, buffer);
-	if (!ft_strchr(e->fds[cs].buf_read,'\n')) //Incomplet
+	if (buffer[0] == '/')
 	{
-
+		input_command(e, cs, buffer);
 	}
-	else if (ft_strchr(e->fds[cs].buf_read,'\n')) // Complet
+	else
 	{
-		if (buffer[0] == '/')
-		{
-			input_command(e, cs, e->fds[cs].buf_read, r);
-		}
-		else
-		{
-			input_message(e, cs, e->fds[cs].buf_read, r);
-		}
-		bzero(e->fds[cs].buf_read, BUF_SIZE);
+		input_message(e, cs, buffer);
 	}
-	if (buffer)
-		free(buffer);
 }

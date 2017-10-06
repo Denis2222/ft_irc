@@ -20,24 +20,22 @@
 void	client_read(t_env *e, int cs)
 {
 	int	res;
+	int head;
 
-	char *buffer;
-
-	buffer = NULL;
-	buffer = ft_strnew(BUF_SIZE+1);
-
-	res = recv(cs, buffer, BUF_SIZE, 0);
-	if (res > 0 && ft_strlen(buffer))
+	head = ft_strlen(e->fds[cs].buf_read);
+	if (head >= BUF_SIZE-10)
 	{
-		buffer[res] = '\0';
-		ft_printf("RECU [%s]", buffer);
-		if (ft_strlen(buffer) <= MAX_CMD_SIZE)
-			input(e, cs, buffer, res);
-		ft_bzero(buffer, BUF_SIZE);
+		ft_printf("BUFFER FULL");
+		return ;
 	}
-	else
-		clean_fd(&e->fds[cs], 0);
-
-	buffer = NULL;
-	free(buffer);
+	res = recv(cs, &e->fds[cs].buf_read[head], 1, 0);
+	if (res == 0)
+	{
+		ft_printf("Client %d disconnect", cs);
+		clean_fd(&e->fds[cs], cs);
+	}
+	if (res > 0)
+	{
+		e->fds[cs].buf_read[head+res] = 0;
+	}
 }

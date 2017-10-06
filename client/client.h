@@ -29,6 +29,8 @@
 #define PORT 8067
 #define PROMPT_SIZE_MAX 16384
 
+#define NCURSE 1
+
 struct input_line {
     char *ln;
     int length;
@@ -60,6 +62,7 @@ typedef struct		s_client
 	struct input_line lnbuffer;
 
 	t_msg			*msg;
+	char			buffer[BUF_SIZE + 1];
 
 }					t_client;
 
@@ -71,7 +74,7 @@ int connectsocket(t_client *client, char *port);
 int cmd_out(char *line, t_client *client);
 int cmd_in(t_client *client);
 
-char *read_server(int sock, int *n);
+char *read_server(t_client *client);
 void send_server(int sock, char *cmd);
 void write_server(int sock, char *buffer);
 

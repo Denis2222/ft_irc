@@ -29,6 +29,7 @@ void render_text(t_client *client)
 
 void view(t_client *client)
 {
+	clear();
 	client->infobox = subwin(stdscr, 3, COLS, LINES -6, 0);
 	client->chatbox = subwin(stdscr, LINES -5, COLS, 0, 0);
 	client->promptbox = subwin(stdscr, 4, COLS, LINES -4, 0);

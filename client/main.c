@@ -19,6 +19,7 @@ static void init_client(t_client *client)
 	ft_strcpy(client->name, "");
 	ft_strcpy(client->channel, "");
 	client->lines_read = 0;
+	bzero(client->buffer, BUF_SIZE + 1);
 	make_buffer(&client->lnbuffer);
 }
 
@@ -29,33 +30,24 @@ int main(int ac, char **argv)
 
 	init_client(&client);
 
+	if (NCURSE)
+	{
+		initscr();
+		start_color();
+		cbreak();             // Immediate key input
+		nonl();               // Get return key
+		timeout(0);           // Non-blocking input
+		keypad(stdscr, 1);    // Fix keypad
+		noecho();             // No automatic printing
+		curs_set(0);          // Hide real cursor
+		intrflush(stdscr, 0); // Avoid potential graphical issues
+		leaveok(stdscr, 1);   // Don't care where cursor is left
 
-	FILE *f = fopen("/dev/ttys006", "r+");
-  	SCREEN *debug = newterm(NULL, stdout, f);
-
-
-	SCREEN *screen = newterm(NULL, f, stdin);
-	//struct screen scr = initscr();
-
-	set_term(screen);
-	//initscr();
-
-	newterm(NULL, stdout, stdin);
-	start_color();
-    cbreak();             // Immediate key input
-    nonl();               // Get return key
-    timeout(0);           // Non-blocking input
-    keypad(stdscr, 1);    // Fix keypad
-    noecho();             // No automatic printing
-    curs_set(0);          // Hide real cursor
-    intrflush(stdscr, 0); // Avoid potential graphical issues
-    leaveok(stdscr, 1);   // Don't care where cursor is left
-
-	//clear();
-	init_pair(1, COLOR_RED, COLOR_BLACK);
-	init_pair(2, COLOR_GREEN, COLOR_BLACK);
-	init_pair(3, COLOR_BLUE, COLOR_BLACK);
-
+		clear();
+		init_pair(1, COLOR_RED, COLOR_BLACK);
+		init_pair(2, COLOR_GREEN, COLOR_BLACK);
+		init_pair(3, COLOR_BLUE, COLOR_BLACK);
+	}
 	if (ac == 3)
 	{
 		connect_host(argv[1], argv[2], &client);
@@ -73,8 +65,11 @@ int main(int ac, char **argv)
 	}
 	close(client.socket);
 	destroy_buffer(&client.lnbuffer);
-	delwin(stdscr);
-	endwin();
-	refresh();
+	if (NCURSE)
+	{
+		delwin(stdscr);
+		endwin();
+		refresh();
+	}
 	return (0);
 }

@@ -21,6 +21,5 @@ void	main_loop(t_env *e)
 		init_fd(e);
 		do_select(e);
 		check_fd(e);
-		ft_printf("\nBoring..");
 	}
 }

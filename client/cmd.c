@@ -26,59 +26,65 @@ int cmd_out(char *line, t_client *client)
    } else {
 		if (client->connect) {
 			line[ft_strlen(line)] = '\n';
+			line[ft_strlen(line)+1] = 0;
 			write_server(client->socket, line);
 		}
    }
    return (0);
 }
 
+char *cmd_from_buffer(char *buffer)
+{
+	int length;
+	int cmdlength;
+	int pos;
+	char *cmd;
+
+	char *tmp;
+	length = ft_strlen(buffer);
+	pos = ft_strlen(ft_strchr(buffer, '\n'));
+	cmdlength = length - pos;
+
+	cmd = ft_strsub(buffer, 0, cmdlength);
+	tmp = ft_strsub(buffer, cmdlength+1, length);
+	bzero(buffer, BUF_SIZE + 1);
+	ft_strcpy(buffer, tmp);
+	free(tmp);
+	return (cmd);
+}
+
+
 int cmd_in(t_client *client)
 {
 	char **tab;
-	char **cmds;
-	int i;
-	int n;
 	char *cmd;
 
-	cmd = read_server(client->socket, &n);
-	if (n == 0 || cmd == NULL)
+	if (ft_strlen(client->buffer) > 0)
 	{
-		ft_printf("server disconnected");
-		return (0);
-	}
-	//ft_printf("cmd in BUFFER:[%s][%d]\n", cmd, ft_strlen(cmd));
-	i = 0;
-	cmds = ft_strsplit(cmd, '\n');
-	ft_printf("%d", ft_tablen(cmds));
-	while (cmds[i] != '\0')
-	{
-		if (cmds[i][0] == '/') {
-			tab = ft_strsplit(cmds[i], ' ');
-			//ft_printf("VOUS ETES ICI !!!!!!!!!!!!!!!!!!!!!!");
-			if (ft_strnstr(cmds[i], "/nick ", 6))
-			{
-
-				ft_strcpy(client->name, tab[1]);
-				ft_printf("Change name");
+		if (ft_strchr(client->buffer, '\n'))
+		{
+			cmd = cmd_from_buffer(client->buffer);
+			if (cmd[0] == '/') {
+				tab = ft_strsplit(cmd, ' ');
+				if (ft_strnstr(cmd, "/nick ", 6))
+				{
+					ft_strcpy(client->name, tab[1]);
+					ft_printf("Change name");
+				}
+				if (ft_strnstr(cmd, "/join ", 6))
+				{
+					ft_printf("Change channel");
+					ft_strcpy(client->channel, tab[1]);
+				}
+				if (ft_strncmp(cmd, "/newmsg", 7) == 0)
+				{
+					ft_printf("\nNEW MESSAGE  %s\n", &cmd[7]);
+					client->msg = addmsg(&client->msg, newmsg(&cmd[7], client));
+				}
+				ft_tabfree(tab);
 			}
-			if (ft_strnstr(cmds[i], "/join ", 6))
-			{
-				ft_printf("Change channel");
-				ft_strcpy(client->channel, tab[1]);
-			}
-			ft_printf("{%s}", cmds[i]);
-			if (ft_strncmp(cmds[i], "/newmsg", 7) == 0)
-			{
-				ft_printf("\nNEW MESSAGE  %s\n", &cmds[i][7]);
-				client->msg = addmsg(&client->msg, newmsg(&cmds[i][7], client));
-			}
-			ft_tabfree(tab);
+			free(cmd);
 		}
-		i++;
 	}
-	free(cmd);
-	cmd = NULL;
-	ft_tabfree(cmds);
-	//exit(0);
 	return (0);
 }

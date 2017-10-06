@@ -46,3 +46,20 @@ void write_client(int sock, char *buffer)
 		ft_printf("TENVOI DE LA MERDE!!!");
 	}
 }
+
+
+void presend(t_env *e, int cs, char *cmd)
+{
+	char *sc;
+
+	sc = e->fds[cs].buf_write;
+	if (ft_strlen(sc) + ft_strlen(cmd) > BUF_SIZE)
+	{
+		ft_printf("Buffer Overflow !!! Trash that or Disconnect this spam er!");
+		return ;
+	}
+	
+	if (ft_strlen(sc))
+		ft_strcat(sc, "\n");
+	ft_strcat(sc, cmd);
+}
