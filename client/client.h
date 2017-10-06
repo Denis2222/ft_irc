@@ -64,6 +64,10 @@ typedef struct		s_client
 	t_msg			*msg;
 	char			buffer[BUF_SIZE + 1];
 
+	char			buf_read[BUF_SIZE + 1];
+	char			buf_write[BUF_SIZE + 1];
+	fd_set			fd_read;
+	fd_set			fd_write;
 }					t_client;
 
 int connect_host(char *host, char *port, t_client *client);
@@ -74,13 +78,11 @@ int connectsocket(t_client *client, char *port);
 int cmd_out(char *line, t_client *client);
 int cmd_in(t_client *client);
 
-char *read_server(t_client *client);
+int read_server(t_client *client);
 void send_server(int sock, char *cmd);
 void write_server(int sock, char *buffer);
 
-int loop_connect(fd_set *rdfs, t_client *client);
-int loop_disconnect(t_client *client);
-
+int loop(t_client *client);
 
 void make_buffer(struct input_line *buf);
 void destroy_buffer(struct input_line *buf);

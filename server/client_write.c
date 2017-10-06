@@ -6,11 +6,10 @@ void	client_write(t_env *e, int cs)
     char tmp[BUF_SIZE + 1]; 
     int res;
 
-    res = send(cs, e->fds[cs].buf_write, 10, 0);
+    res = send(cs, e->fds[cs].buf_write, SPEED_MAX, 0);
     if (res > 0)
     {
         ft_strcpy(tmp, &e->fds[cs].buf_write[res]);
-        ft_printf("T LA BATARD ? %s",tmp);
         ft_bzero(e->fds[cs].buf_write, BUF_SIZE + 1);
         ft_strcpy(e->fds[cs].buf_write, tmp);
     }

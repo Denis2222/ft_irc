@@ -41,44 +41,34 @@ static void events(t_client *client)
 	}
 }
 
-int loop_connect(fd_set *rdfs, t_client *client)
+int loop(t_client *client)
 {
-	FD_ZERO(rdfs);
-	FD_SET(STDIN_FILENO, rdfs);
-	FD_SET(client->socket, rdfs);
-	if (select(client->socket + 1, rdfs, NULL, NULL, NULL) == -1)
+	FD_ZERO(&client->fd_read);
+	FD_ZERO(&client->fd_write);
+	FD_SET(STDIN_FILENO, &client->fd_read);
+	if (client->connect)
+		FD_SET(client->socket, &client->fd_read);
+	if (select(client->socket + 1, &client->fd_read, &client->fd_write, NULL, NULL) == -1)
 	{
-		//dprintf(STDERR_FILENO, "select resize");
-		//perror("select()");
-		//clear();
 		return (1);
 	}
-	if (FD_ISSET(STDIN_FILENO, rdfs))
+	if (FD_ISSET(STDIN_FILENO, &client->fd_read))
 	{
 		events(client);
 		view(client);
 	}
-
-	if (FD_ISSET(client->socket, rdfs))
-	{
-		read_server(client);
-		cmd_in(client);
-		refresh();
-		view(client);
-   }
+	if (client->connect)
+		if (FD_ISSET(client->socket, &client->fd_read))
+		{
+			if (read_server(client) == 0)
+			{
+				client->msg = addmsg(&client->msg, newmsg("Disconnected\n", client));
+				client->connect = 0;
+			}
+			cmd_in(client);
+			refresh();
+			view(client);
+	}
 
    return (1);
-}
-
-int loop_disconnect(t_client *client)
-{
-	char	*line;
-	char buffer[BUF_SIZE];
-
-	get_next_line_single(STDIN_FILENO, &line);
-	ft_strcpy(buffer, line);
-	cmd_out(buffer, client);
-	free(line);
-	line = NULL;
-	return (1);
 }

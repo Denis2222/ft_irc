@@ -26,10 +26,8 @@ static void init_client(t_client *client)
 int main(int ac, char **argv)
 {
 	t_client client;
-	fd_set	rdfs;
 
 	init_client(&client);
-
 	if (NCURSE)
 	{
 		initscr();
@@ -42,7 +40,6 @@ int main(int ac, char **argv)
 		curs_set(0);          // Hide real cursor
 		intrflush(stdscr, 0); // Avoid potential graphical issues
 		leaveok(stdscr, 1);   // Don't care where cursor is left
-
 		clear();
 		init_pair(1, COLOR_RED, COLOR_BLACK);
 		init_pair(2, COLOR_GREEN, COLOR_BLACK);
@@ -53,15 +50,12 @@ int main(int ac, char **argv)
 		connect_host(argv[1], argv[2], &client);
 		client.connect = 1;
 	}
+	refresh();
+	view(&client);
 	while(42)
 	{
-		if (client.connect)
-		{
-			if (!loop_connect(&rdfs, &client))
-				break;
-		}
-		else
-			loop_disconnect(&client);
+		if (!loop(&client))
+			break;
 	}
 	close(client.socket);
 	destroy_buffer(&client.lnbuffer);

@@ -23,12 +23,12 @@ void	client_read(t_env *e, int cs)
 	int head;
 
 	head = ft_strlen(e->fds[cs].buf_read);
-	if (head >= BUF_SIZE-10)
+	if (head >= BUF_SIZE-SPEED_MAX)
 	{
 		ft_printf("BUFFER FULL");
 		return ;
 	}
-	res = recv(cs, &e->fds[cs].buf_read[head], 1, 0);
+	res = recv(cs, &e->fds[cs].buf_read[head], SPEED_MAX, 0);
 	if (res == 0)
 	{
 		ft_printf("Client %d disconnect", cs);

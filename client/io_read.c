@@ -12,7 +12,7 @@
 
 #include "client.h"
 
-char *read_server(t_client *client)
+int read_server(t_client *client)
 {
 	int head;
 	int res;
@@ -23,5 +23,12 @@ char *read_server(t_client *client)
 	if (res > 0)
 	{
 		client->buffer[head+res] = 0;
+		return (1);
 	}
+	else if (res < 0)
+	{
+		return (-1);
+	}
+	else
+		return (0);
 }
