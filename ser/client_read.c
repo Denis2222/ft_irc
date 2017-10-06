@@ -23,9 +23,10 @@ void	client_read(t_env *e, int cs)
 	int head;
 
 	head = ft_strlen(e->fds[cs].buf_read);
-	if (head >= BUF_SIZE-SPEED_MAX)
+	if (head >= MAX_CMD_SIZE)
 	{
-		ft_printf("BUFFER FULL");
+		ft_printf("BUFFER FULL Disrespect !");
+		clean_fd(&e->fds[cs], cs);
 		return ;
 	}
 	res = recv(cs, &e->fds[cs].buf_read[head], SPEED_MAX, 0);
@@ -37,5 +38,12 @@ void	client_read(t_env *e, int cs)
 	if (res > 0)
 	{
 		e->fds[cs].buf_read[head+res] = 0;
+		if (!ft_streachr(e->fds[cs].buf_read, ft_isprint))
+		{
+			bzero(e->fds[cs].buf_read, BUF_SIZE);
+			ft_printf("Client %d eject for spam non ascii haxx !", cs);
+			clean_fd(&e->fds[cs], cs);
+			//bzero(e->fds[cs].buf_read, BUF_SIZE);
+		}
 	}
 }

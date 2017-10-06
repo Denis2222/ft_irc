@@ -38,7 +38,7 @@ void presend(t_client *e, char *cmd)
 	sc = e->buf_write;
 	if (ft_strlen(sc) + ft_strlen(cmd) > BUF_SIZE)
 	{
-		ft_printf("Buffer Overflow !!! Trash that or Disconnect this spam er!");
+		ft_printf("Buffer Overflow !!! Trash that or Disconnect this spam er [%s] !", e->buf_write);
 		return ;
 	}
 	if (ft_strlen(sc))

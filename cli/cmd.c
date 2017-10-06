@@ -61,7 +61,7 @@ int cmd_in(t_client *client)
 
 	if (ft_strlen(client->buf_read) > 0)
 	{
-		if (ft_strchr(client->buf_read, '\n'))
+		while (ft_strchr(client->buf_read, '\n'))
 		{
 			cmd = cmd_from_buffer(client->buf_read);
 			if (cmd[0] == '/') {

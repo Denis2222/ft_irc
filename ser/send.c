@@ -20,6 +20,7 @@ void presend(t_env *e, int cs, char *cmd)
 	if (ft_strlen(sc) + ft_strlen(cmd) > BUF_SIZE)
 	{
 		ft_printf("Buffer Overflow !!! Trash that or Disconnect this spam er!");
+		ft_bzero(e->fds[cs].buf_write, BUF_SIZE);
 		return ;
 	}
 	

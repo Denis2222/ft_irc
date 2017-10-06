@@ -28,7 +28,7 @@
 #define SOCKET_ERROR -1
 #define PORT 8067
 #define PROMPT_SIZE_MAX 500
-#define SPEED_MAX 10
+#define SPEED_MAX 500
 
 #define NCURSE 1
 

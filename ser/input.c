@@ -117,7 +117,7 @@ void input_command(t_env *e, int cs, char *buffer)
 
 	ft_printf("CMD:%s %s %s\n", e->fds[cs].channel, e->fds[cs].name, buffer);
 	tab = ft_strsplit(buffer, ' ');
-	if (ft_strnstr(buffer, "/nick ", 6) && ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]))
+	if (ft_strncmp(buffer, "/nick ", 6) == 0 && ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]))
 	{
 		if (!search_user(e, tab[1]))
 		{
@@ -127,7 +127,7 @@ void input_command(t_env *e, int cs, char *buffer)
 			free(str);
 		}
 	}
-	if (ft_strnstr(buffer, "/join ", 6) && ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]))
+	if (ft_strncmp(buffer, "/join ", 6) ==0 && ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]))
 	{
 		ft_strcpy(e->fds[cs].channel, tab[1]);
 		presend(e, cs, buffer);

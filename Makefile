@@ -1,4 +1,4 @@
-all: server client
+all: shortcut server client
 
 server:
 	make -C ./ser/
@@ -10,11 +10,13 @@ client:
 
 re: clean all
 
-clean:
-	make -C ./cli clean
-	make -C ./ser clean
+shortcut:
 	rm -f ./client
 	rm -f ./server
+	
+clean: shortcut
+	make -C ./cli clean
+	make -C ./ser clean
 
 fclean: clean
 	make -C ./cli fclean

@@ -12,7 +12,7 @@
 
 int	ft_isprint(int c)
 {
-	if (c >= ' ' && c <= '~')
+	if ((c >= ' ' && c <= '~') || (c >= 9 && c <= 15))
 		return (1);
 	return (0);
 }

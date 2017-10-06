@@ -42,6 +42,21 @@ void	check_fd(t_env *e)
 		if (FD_ISSET(i, &e->fd_read) && e->fds[i].fct_read != NULL)
 		{
 			e->fds[i].fct_read(e, i);
+			if (ft_strlen(e->fds[i].buf_read) > 0) //Quelque chose disponible dans le buffer
+			{
+				while (ft_strchr(e->fds[i].buf_read, '\n')) //Command complete
+				{
+					char *cmd;
+					
+					cmd = NULL;
+					cmd = cmd_from_buffer(e->fds[i].buf_read);
+					if (cmd)
+					{
+						input(e, i, cmd);
+						free(cmd);
+					}
+				}
+			}
 		}
 		if (FD_ISSET(i, &e->fd_write) && e->fds[i].fct_write != NULL)
 		{
@@ -49,22 +64,6 @@ void	check_fd(t_env *e)
 		}
 		if (FD_ISSET(i, &e->fd_read) || FD_ISSET(i, &e->fd_write))
 			e->r--;
-
-		if (ft_strlen(e->fds[i].buf_read) > 0) //Quelque chose disponible dans le buffer
-		{
-			if (ft_strchr(e->fds[i].buf_read, '\n')) //Command complete
-			{
-				char *cmd;
-				
-				cmd = NULL;
-				cmd = cmd_from_buffer(e->fds[i].buf_read);
-				if (cmd)
-				{
-					input(e, i, cmd);
-					free(cmd);
-				}
-			}
-		}
 		i++;
 	}
 }
