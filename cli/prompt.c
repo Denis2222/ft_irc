@@ -6,14 +6,15 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 12:57:20 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/06 14:53:09 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
 void make_buffer(struct input_line *buf) {
-    buf->ln = malloc(PROMPT_SIZE_MAX);
+    buf->ln = malloc(PROMPT_SIZE_MAX+1);
+	bzero(buf->ln, PROMPT_SIZE_MAX+1);
     buf->length = 0;
     buf->capacity = PROMPT_SIZE_MAX;
     buf->cursor = 0;
@@ -25,7 +26,7 @@ void destroy_buffer(struct input_line *buf) {
     make_buffer(buf);
 }
 
-void render_line(struct input_line *buf, WINDOW *win) 
+void render_line(struct input_line *buf, WINDOW *win)
 {
     int i = 0;
 
@@ -94,13 +95,17 @@ int handle_input_key(struct input_line *buf, int key)
     if (key == '\t')
         add_char(buf, '\t');
     if (key == KEY_BACKSPACE || key == 127 || key == 8)
+	{
         if (buf->cursor <= 0)
+		{
             return (0);
+		}
         else
         {
             buf->cursor--;
             key = KEY_DC;
         }
+	}
     if (key == KEY_DC)
         if(buf->cursor < buf->length) {
             ft_memmove(
@@ -124,7 +129,7 @@ int handle_input(struct input_line *buf, char *target, int max_len, int key) {
         return (0);
     if (key == KEY_LEFT)
         if(buf->cursor > 0)
-            buf->cursor --; 
+            buf->cursor --;
     if (key == KEY_RIGHT)
         if (buf->cursor < buf->length)
             buf->cursor ++;

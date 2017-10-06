@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/26 07:48:58 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 16:34:05 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/06 14:53:18 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 #define SOCKET_ERROR -1
 #define PORT 8067
 #define PROMPT_SIZE_MAX 500
-#define SPEED_MAX 500
+#define SPEED_MAX 20
 
 #define NCURSE 1
 

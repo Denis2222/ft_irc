@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 17:14:21 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/06 15:04:53 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static void init_client(t_client *client)
 	ft_strcpy(client->name, "");
 	ft_strcpy(client->channel, "");
 	client->lines_read = 0;
-	ft_bzero(client->buffer, BUF_SIZE + 1);
+	ft_bzero(client->buf_write, BUF_SIZE + 1);
+	ft_bzero(client->buf_read, BUF_SIZE + 1);
 	make_buffer(&client->lnbuffer);
 }
 
