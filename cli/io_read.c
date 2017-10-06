@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 17:17:46 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/06 16:28:00 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int read_server(t_client *client)
 
 	head = ft_strlen(client->buf_read);
 
-	res = recv(client->socket, &client->buf_read[head], 1, 0);
+	res = recv(client->socket, &client->buf_read[head], 100, 0);
 	if (res > 0)
 	{
 		client->buf_read[head+res] = 0;

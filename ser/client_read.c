@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 15:42:07 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 17:46:48 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/06 16:25:54 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,18 @@ void	client_read(t_env *e, int cs)
 	{
 		ft_printf("Client %d disconnect", cs);
 		clean_fd(&e->fds[cs], cs);
+		close(cs);
 	}
 	if (res > 0)
 	{
 		e->fds[cs].buf_read[head+res] = 0;
+		if (!ft_streachr(e->fds[cs].buf_read, ft_isprint))
+		{
+			bzero(e->fds[cs].buf_read, BUF_SIZE);
+			ft_printf("Client %d eject for spam non ascii haxx !", cs);
+			clean_fd(&e->fds[cs], cs);
+			close(cs);
+			//bzero(e->fds[cs].buf_read, BUF_SIZE);
+		}
 	}
 }

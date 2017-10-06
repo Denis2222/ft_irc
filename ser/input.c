@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 06:26:59 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 18:01:27 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/06 16:17:51 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void input_command(t_env *e, int cs, char *buffer)
 
 	ft_printf("CMD:%s %s %s\n", e->fds[cs].channel, e->fds[cs].name, buffer);
 	tab = ft_strsplit(buffer, ' ');
-	if (ft_strnstr(buffer, "/nick ", 6))
+	if (ft_strncmp(buffer, "/nick ", 6) == 0 && ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]))
 	{
 		ft_strcpy(e->fds[cs].name, tab[1]);
 
@@ -125,12 +125,11 @@ void input_command(t_env *e, int cs, char *buffer)
 		presend(e, cs, str);
 		free(str);
 	}
-	if (ft_strnstr(buffer, "/join ", 6))
+	if (ft_strncmp(buffer, "/join ", 6) == 0 && ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]))
 	{
 		ft_strcpy(e->fds[cs].channel, tab[1]);
 		presend(e, cs, buffer);
 		presend(e, cs, "\n");
-
 	}
 
 	if (ft_strncmp(buffer, "/msg", 2) == 0)

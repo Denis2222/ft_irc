@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 15:56:43 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 17:15:06 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/06 16:28:04 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	server_write(t_client *e)
 {
-    char tmp[BUF_SIZE + 1]; 
+    char tmp[BUF_SIZE + 1];
     int res;
 
-    res = send(e->socket, e->buf_write, 1, 0);
+    res = send(e->socket, e->buf_write, 100, 0);
     if (res > 0)
     {
         ft_strcpy(tmp, &e->buf_write[res]);
@@ -41,7 +41,7 @@ void presend(t_client *e, char *cmd)
 		ft_printf("Buffer Overflow !!! Trash that or Disconnect this spam er!");
 		return ;
 	}
-	
+
 	if (ft_strlen(sc))
 		ft_strcat(sc, "\n");
 	ft_strcat(sc, cmd);
