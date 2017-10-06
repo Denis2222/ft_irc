@@ -10,5 +10,5 @@ void	get_opt(t_env *e, int ac, char **av)
 		ft_printf(USAGE, av[0]);
 		exit(1);
 	}
-	e->port = atoi(av[1]);
+	e->port = ft_atoi(av[1]);
 }

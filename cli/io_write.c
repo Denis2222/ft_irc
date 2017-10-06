@@ -41,7 +41,6 @@ void presend(t_client *e, char *cmd)
 		ft_printf("Buffer Overflow !!! Trash that or Disconnect this spam er!");
 		return ;
 	}
-	
 	if (ft_strlen(sc))
 		ft_strcat(sc, "\n");
 	ft_strcat(sc, cmd);

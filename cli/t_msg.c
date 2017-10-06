@@ -45,7 +45,6 @@ t_msg	*addmsg(t_msg **lstmsg, t_msg *msg)
 		beginlst = msg;
 	else
 	{
-		//ft_printf("%p %p ", current, current->next);
 		while (current->next)
 			current = current->next;
 		current->next = msg;

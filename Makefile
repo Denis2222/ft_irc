@@ -1,23 +1,23 @@
-all: ser cli
+all: server client
 
-ser:
-	make -C ./server/
-	mv ./server/server ./ser
+server:
+	make -C ./ser/
+	cp ./ser/server ./server
 
-cli:
-	make -C ./client/
-	mv ./client/client ./cli
+client:
+	make -C ./cli/
+	cp ./cli/client ./client
 
 re: clean all
 
 clean:
-	make -C ./client clean
-	make -C ./server clean
-	rm -f ./cli
-	rm -f ./ser
+	make -C ./cli clean
+	make -C ./ser clean
+	rm -f ./client
+	rm -f ./server
 
 fclean: clean
-	make -C ./client fclean
-	make -C ./server fclean
-	rm -f ./cli
-	rm -f ./ser
+	make -C ./cli fclean
+	make -C ./ser fclean
+	rm -f ./client
+	rm -f ./server

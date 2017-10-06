@@ -26,7 +26,7 @@ char *cmd_from_buffer(char *buffer)
 	cmdlength = length - pos;
 	cmd = ft_strsub(buffer, 0, cmdlength);
 	tmp = ft_strsub(buffer, cmdlength+1, length);
-	bzero(buffer, BUF_SIZE + 1);
+	ft_bzero(buffer, BUF_SIZE + 1);
 	ft_strcpy(buffer, tmp);
 	free(tmp);
 	return (cmd);

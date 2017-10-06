@@ -22,8 +22,8 @@ void			srv_accept(t_env *e, int s)
 	ft_strcat(e->fds[cs].name, ft_itoa(cs));
 	ft_strcat(e->fds[cs].name, "");
 	ft_strcpy(e->fds[cs].channel, "general");
-	bzero(e->fds[cs].buf_read, BUF_SIZE+1);
-	bzero(e->fds[cs].buf_write, BUF_SIZE+1);
+	ft_bzero(e->fds[cs].buf_read, BUF_SIZE+1);
+	ft_bzero(e->fds[cs].buf_write, BUF_SIZE+1);
 
 	ft_printf("{red}%s{eoc}", e->fds[cs].name);
 	char *connectmsg;

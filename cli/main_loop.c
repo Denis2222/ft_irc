@@ -22,11 +22,11 @@ static void events(t_client *client)
 	{
 		len = get_line_non_blocking(&client->lnbuffer, ln, sizeof(ln));
 		if(len > 0 && ft_strlen(ln)) {
-			if(strcmp(ln, "exit") == 0) {
+			if(ft_strcmp(ln, "exit") == 0) {
 				ft_printf("Exit ask");
 			}
 			cmd_out(ln, client);
-			bzero(ln, PROMPT_SIZE_MAX);
+			ft_bzero(ln, PROMPT_SIZE_MAX);
 			view(client);
 			refresh();
 		}

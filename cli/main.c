@@ -19,7 +19,7 @@ static void init_client(t_client *client)
 	ft_strcpy(client->name, "");
 	ft_strcpy(client->channel, "");
 	client->lines_read = 0;
-	bzero(client->buffer, BUF_SIZE + 1);
+	ft_bzero(client->buffer, BUF_SIZE + 1);
 	make_buffer(&client->lnbuffer);
 }
 
