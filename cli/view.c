@@ -41,7 +41,7 @@ void view(t_client *client)
 		wmove(client->promptbox, 1, 1);
 		render_line(&client->lnbuffer, client->promptbox);
 		wmove(client->infobox, 1, 1);
-		waddstr(client->infobox, "Nickname :");
+		waddstr(client->infobox, "Niickname :");
 		waddstr(client->infobox, client->name);
 		waddstr(client->infobox, " | Channel :");
 		waddstr(client->infobox, client->channel);

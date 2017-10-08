@@ -14,6 +14,7 @@
 
 int connect_host(char *host, char *port, t_client *client)
 {
+	(void)host;
 	if (checkhost(client) == 1)
 		return (0);
 	if (checksocket(client) == 1)

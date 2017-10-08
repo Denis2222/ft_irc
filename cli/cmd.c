@@ -25,8 +25,6 @@ int cmd_out(char *line, t_client *client)
 		client->connect = 1;
    } else {
 		if (client->connect) {
-			line[ft_strlen(line)] = '\n';
-			line[ft_strlen(line)+1] = 0;
 			presend(client, line);
 		}
    }
@@ -43,16 +41,15 @@ char *cmd_from_buffer(char *buffer)
 	char *tmp;
 	length = ft_strlen(buffer);
 	pos = ft_strlen(ft_strchr(buffer, '\n'));
-	cmdlength = length - pos;
-
-	cmd = ft_strsub(buffer, 0, cmdlength);
+	cmdlength = length - pos+1;
+	
+	cmd = ft_strsub(buffer, 0, cmdlength - 1);
 	tmp = ft_strsub(buffer, cmdlength+1, length);
 	ft_bzero(buffer, BUF_SIZE + 1);
 	ft_strcpy(buffer, tmp);
 	free(tmp);
 	return (cmd);
 }
-
 
 int cmd_in(t_client *client)
 {
@@ -63,7 +60,9 @@ int cmd_in(t_client *client)
 	{
 		while (ft_strchr(client->buf_read, '\n'))
 		{
+			dprintf(2, " return detect go \n");
 			cmd = cmd_from_buffer(client->buf_read);
+			dprintf(2, " cmd exrtract from buffer |%s| \n", cmd);
 			if (cmd[0] == '/') {
 				tab = ft_strsplit(cmd, ' ');
 				if (ft_strnstr(cmd, "/nick ", 6))
@@ -78,7 +77,7 @@ int cmd_in(t_client *client)
 				}
 				if (ft_strncmp(cmd, "/newmsg", 7) == 0)
 				{
-					ft_printf("\nNEW MESSAGE  %s\n", &cmd[7]);
+					ft_dprintf(2, "\nNEW MESSAGE  %s\n", &cmd[7]);
 					client->msg = addmsg(&client->msg, newmsg(&cmd[7], client));
 				}
 				ft_tabfree(tab);

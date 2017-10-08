@@ -9,8 +9,8 @@ SRCS = main.c \
 	view.c
 
 NAME = client
-GCC_FLAGS = -Werror -g
-CC = gcc $(GCC_FLAGS)
+GCC_FLAGS = -Werror -Wextra -Wall -g
+CC = clang $(GCC_FLAGS)
 SRCDIR = ./
 OBJDIR = ./objs
 AR = ar -cq

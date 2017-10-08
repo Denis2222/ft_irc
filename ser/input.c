@@ -102,8 +102,6 @@ int private_message(t_env *e, int cs, char *buffer)
 
 		send = ft_mprintf("/newmsg [private][%s]:[%s]:%s\n", e->fds[cs].name, nick, texte);
 		presend(e, cs, send);
-		free(send);
-		ft_printf("Send to : %s -> %s", nick, send);
 		return (0);
 	}
 	ft_tabfree(tab);

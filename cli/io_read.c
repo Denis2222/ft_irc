@@ -19,6 +19,7 @@ int read_server(t_client *client)
 
 	head = ft_strlen(client->buf_read);
 	res = recv(client->socket, &client->buf_read[head], SPEED_MAX, 0);
+	dprintf(2, "client->buf_read : |%s| \n", client->buf_read);
 	if (res > 0)
 	{
 		client->buf_read[head+res] = 0;

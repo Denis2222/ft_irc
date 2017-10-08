@@ -70,9 +70,6 @@ int retrieve_content(struct input_line *buf, char *target, int max_len)
 }
 
 void add_char(struct input_line *buf, char ch) {
-    int ncap;
-    char *nln;
-
     if(buf->length == buf->capacity)
         return ;
     ft_memmove(
