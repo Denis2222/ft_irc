@@ -16,8 +16,6 @@ int cmd_out(char *line, t_client *client)
 {
 	char **cmd;
 
-	ft_dprintf(2, "LOL");
-
 	if ((ft_strncmp(line, "/help", 5) == 0))
 		showmsghelp(client);
 	else if ((ft_strncmp(line, "/connect ", 9) == 0) && !client->connect)
