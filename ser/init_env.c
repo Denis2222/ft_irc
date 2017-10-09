@@ -15,6 +15,8 @@ void		init_env(t_env *e)
 	while (i < e->maxfd)
 	{
 		clean_fd(&e->fds[i], i);
+		ft_bzero(e->fds[i].buf_read, BUF_SIZE + 1);
+		ft_bzero(e->fds[i].buf_write, BUF_SIZE + 1);
 		i++;
 	}
 }

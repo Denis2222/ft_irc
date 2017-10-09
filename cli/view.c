@@ -46,6 +46,9 @@ void view(t_client *client)
 		waddstr(client->infobox, " | Channel :");
 		waddstr(client->infobox, client->channel);
 		waddstr(client->infobox, " | NB Message :");
+
+		waddstr(client->infobox, ft_itoa(lenmsg(client->msg)));
+		
 		box(client->infobox, ACS_VLINE, ACS_HLINE);
 		box(client->chatbox, ACS_VLINE, ACS_HLINE);
 		box(client->promptbox, ACS_VLINE, ACS_HLINE);

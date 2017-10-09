@@ -27,7 +27,7 @@ void			srv_accept(t_env *e, int s)
 
 	ft_printf("{red}%s{eoc}", e->fds[cs].name);
 	char *connectmsg;
-	connectmsg = ft_mprintf("/nick %s\n/join %s\n/newmsg ===================\n/newmsg ===================\n/newmsg [Server]Welcome IRC\n/newmsg ===================\n/newmsg ===================\n", e->fds[cs].name, e->fds[cs].channel);
+	connectmsg = ft_mprintf("/nick %s\n/join %s \n /newmsg ===================\n/newmsg ===================\n/newmsg [Server]Welcome IRC\n/newmsg ===================\n/newmsg ===================\n", e->fds[cs].name, e->fds[cs].channel);
 	ft_printf("Send all %s", connectmsg);
 	presend(e, cs, connectmsg);
 	free(connectmsg);
