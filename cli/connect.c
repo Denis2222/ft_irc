@@ -12,6 +12,16 @@
 
 #include "client.h"
 
+void tryconnect(t_client *client, int ac, char **argv)
+{
+	if (ac == 2)
+		if (connect_host(argv[1], "2000", client))
+			client->connect = 1;
+	if (ac == 3)
+		if (connect_host(argv[1], argv[2], client))
+			client->connect = 1;
+}
+
 int connect_host(char *host, char *port, t_client *client)
 {
 	(void)host;
@@ -67,7 +77,7 @@ int connectsocket(t_client *client, char *port)
     	writemsg(client, "        Connection fail : Check host and port !\n");
     	return (1);
 	}
-	writemsg(client, "        Connection established !\n");
+	writemsg(client, "        Connection established !");
 	ft_printf("Connection established !\n");
 	return (0);
 }

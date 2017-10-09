@@ -58,36 +58,41 @@ char *cmd_from_buffer(char *buffer)
 	return (cmd);
 }
 
+static void cmd_in_switch(t_client *client, char *cmd)
+{
+	char	**tab;
+	char	*str;
+
+	tab = ft_strsplit(cmd, ' ');
+	if (ft_strnstr(cmd, "/nick ", 6))
+	{
+		ft_strcpy(client->name, tab[1]);
+	}
+	else if (ft_strnstr(cmd, "/join ", 6))
+	{
+		str = ft_mprintf("/newmsg [server] Switch to %s channel", tab[1]);
+		writemsg(client, str);
+		free(str);
+		ft_strcpy(client->channel, tab[1]);
+	}
+	else if (ft_strncmp(cmd, "/newmsg", 7) == 0)
+	{
+		writemsg(client, cmd);
+	}
+	ft_tabfree(tab);
+}
+
 int cmd_in(t_client *client)
 {
-	char **tab;
 	char *cmd;
-	char *str;
 
 	if (ft_strlen(client->buf_read) > 0)
 	{
 		while (ft_strchr(client->buf_read, '\n'))
 		{
 			cmd = cmd_from_buffer(client->buf_read);
-			if (cmd[0] == '/') {
-				tab = ft_strsplit(cmd, ' ');
-				if (ft_strnstr(cmd, "/nick ", 6))
-				{
-					ft_strcpy(client->name, tab[1]);
-				}
-				else if (ft_strnstr(cmd, "/join ", 6))
-				{
-					str = ft_mprintf("/newmsg [server] Switch to %s channel", tab[1]);
-					writemsg(client, str);
-					free(str);
-					ft_strcpy(client->channel, tab[1]);
-				}
-				else if (ft_strncmp(cmd, "/newmsg", 7) == 0)
-				{
-					writemsg(client, cmd);
-				}
-				ft_tabfree(tab);
-			}
+			if (cmd[0] == '/')
+				cmd_in_switch(client, cmd);
 			free(cmd);
 		}
 	}

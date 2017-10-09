@@ -12,7 +12,7 @@
 
 #include "client.h"
 
-void make_buffer(struct input_line *buf) {
+void make_buffer(t_inline *buf) {
     buf->ln = malloc(PROMPT_SIZE_MAX+1);
 	bzero(buf->ln, PROMPT_SIZE_MAX+1);
     buf->length = 0;
@@ -21,12 +21,12 @@ void make_buffer(struct input_line *buf) {
     buf->last_rendered = 0;
 }
 
-void destroy_buffer(struct input_line *buf) {
+void destroy_buffer(t_inline *buf) {
     free(buf->ln);
     make_buffer(buf);
 }
 
-void render_line(struct input_line *buf, WINDOW *win)
+void render_line(t_inline *buf, WINDOW *win)
 {
     int i = 0;
 
@@ -54,7 +54,7 @@ void render_line(struct input_line *buf, WINDOW *win)
     buf->last_rendered = rendered;
 }
 
-int retrieve_content(struct input_line *buf, char *target, int max_len)
+int retrieve_content(t_inline *buf, char *target, int max_len)
 {
     int len;
 
@@ -69,7 +69,7 @@ int retrieve_content(struct input_line *buf, char *target, int max_len)
     return len + 1;
 }
 
-void add_char(struct input_line *buf, char ch) {
+void add_char(t_inline *buf, char ch) {
     if(buf->length == buf->capacity)
         return ;
     ft_memmove(
@@ -83,7 +83,7 @@ void add_char(struct input_line *buf, char ch) {
 }
 
 
-int handle_input_key(struct input_line *buf, int key)
+int handle_input_key(t_inline *buf, int key)
 {
     if (key == KEY_HOME)
         buf->cursor = 0;
@@ -94,9 +94,7 @@ int handle_input_key(struct input_line *buf, int key)
     if (key == KEY_BACKSPACE || key == 127 || key == 8)
 	{
         if (buf->cursor <= 0)
-		{
             return (0);
-		}
         else
         {
             buf->cursor--;
@@ -115,9 +113,7 @@ int handle_input_key(struct input_line *buf, int key)
     return (0);
 }
 
-int handle_input(struct input_line *buf, char *target, int max_len, int key) {
-	if (key == KEY_RESIZE)
-		return (0);
+int handle_input(t_inline *buf, char *target, int max_len, int key) {
     if(!(key & KEY_CODE_YES) && isprint(key)) {
         add_char(buf, key);
         return 0;
@@ -136,13 +132,16 @@ int handle_input(struct input_line *buf, char *target, int max_len, int key) {
     return (0);
 }
 
-int get_line_non_blocking(struct input_line *buf, char *target, int max_len) {
+int get_line_non_blocking(t_inline *buf, char *target, int max_len) {
+    int key;
+    int n;
+
     while(1) {
-        int key = getch();
-        if(key == ERR) {
+        key = getch();
+        if(key == ERR || key == KEY_RESIZE) {
             return 0;
         }
-        int n = handle_input(buf, target, max_len, key);
+        n = handle_input(buf, target, max_len, key);
         if(n) {
             return n;
         }

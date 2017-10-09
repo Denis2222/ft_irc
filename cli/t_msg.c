@@ -15,7 +15,7 @@
 t_msg	*newmsg(char *text, t_client *client)
 {
 	t_msg	*msg;
-	char **tab;
+	char	**tab;
 
 	msg = (t_msg *)malloc(sizeof(t_msg));
 	msg->text = ft_strdup(text);

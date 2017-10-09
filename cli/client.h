@@ -23,23 +23,23 @@
 #include <ctype.h>
 #include <ncurses.h>
 
-#define BUF_SIZE	1024
-#define INVALID_SOCKET -1
-#define SOCKET_ERROR -1
-#define PORT 8067
-#define PROMPT_SIZE_MAX 500
-#define MAX_MSG 100
-#define SPEED_MAX 20
+#define BUF_SIZE		1024
+#define INVALID_SOCKET	-1
+#define SOCKET_ERROR	-1
+#define PORT			8067
+#define PROMPT_SIZE_MAX	500
+#define MAX_MSG			100
+#define SPEED_MAX		20
 
 #define NCURSE 1
 
-struct input_line {
+typedef struct	input_line {
     char *ln;
     int length;
     int capacity;
     int cursor;
     int last_rendered;
-};
+}				t_inline;
 
 typedef struct		s_msg
 {
@@ -62,7 +62,7 @@ typedef struct		s_client
 	WINDOW			*chatbox;
 	WINDOW			*promptbox;
 	WINDOW			*infobox;
-	struct input_line lnbuffer;
+	t_inline		lnbuffer;
 
 	t_msg			*msg;
 	char			buffer[BUF_SIZE + 1];
@@ -73,6 +73,7 @@ typedef struct		s_client
 	fd_set			fd_write;
 }					t_client;
 
+void tryconnect(t_client *client, int ac, char **argv);
 int connect_host(char *host, char *port, t_client *client);
 int checkhost(t_client *client, char *host);
 int checksocket (t_client *client);
@@ -91,13 +92,13 @@ void 	presend(t_client *e, char *cmd);
 
 int loop(t_client *client);
 
-void make_buffer(struct input_line *buf);
-void destroy_buffer(struct input_line *buf);
-void render_line(struct input_line *buf, WINDOW *win);
-int retrieve_content(struct input_line *buf, char *target, int max_len);
-void add_char(struct input_line *buf, char ch);
-int handle_input(struct input_line *buf, char *target, int max_len, int key);
-int get_line_non_blocking(struct input_line *buf, char *target, int max_len);
+void make_buffer(t_inline *buf);
+void destroy_buffer(t_inline *buf);
+void render_line(t_inline *buf, WINDOW *win);
+int retrieve_content(t_inline *buf, char *target, int max_len);
+void add_char(t_inline *buf, char ch);
+int handle_input(t_inline *buf, char *target, int max_len, int key);
+int get_line_non_blocking(t_inline *buf, char *target, int max_len);
 
 //t_msg.c
 t_msg	*newmsg(char *text, t_client *client);
@@ -107,5 +108,4 @@ void	writemsg(t_client *client, char *cmd);
 void	showmsghelp(t_client *client);
 
 //view.c
-void render_text(t_client *client);
 void view(t_client *client);

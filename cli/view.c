@@ -12,7 +12,7 @@
 
 #include "client.h"
 
-void render_text(t_client *client)
+static void render_text(t_client *client)
 {
 	t_msg *msg;
 
@@ -27,11 +27,26 @@ void render_text(t_client *client)
 	}
 }
 
-void view(t_client *client)
+static void view_info(t_client *client)
 {
 	char *nb;
+
+	wmove(client->infobox, 1, 1);
+	waddstr(client->infobox, "Niickname :");
+	waddstr(client->infobox, client->name);
+	waddstr(client->infobox, " | Channel :");
+	waddstr(client->infobox, client->channel);
+	waddstr(client->infobox, " | NB Message :");
+	nb = ft_itoa(lenmsg(client->msg));
+	waddstr(client->infobox, nb);
+	free(nb);
+}
+
+void view(t_client *client)
+{
 	WINDOW *cbox;
 	WINDOW *pbox;
+
 	if (NCURSE)
 	{
 		clear();
@@ -45,17 +60,7 @@ void view(t_client *client)
 		render_text(client);
 		wmove(client->promptbox, 0, 0);
 		render_line(&client->lnbuffer, client->promptbox);
-		wmove(client->infobox, 1, 1);
-		waddstr(client->infobox, "Niickname :");
-		waddstr(client->infobox, client->name);
-		waddstr(client->infobox, " | Channel :");
-		waddstr(client->infobox, client->channel);
-		waddstr(client->infobox, " | NB Message :");
-
-		nb = ft_itoa(lenmsg(client->msg));
-		waddstr(client->infobox, nb);
-		free(nb);
-		
+		view_info(client);
 		box(client->infobox, ACS_VLINE, ACS_HLINE);
 		box(cbox, ACS_VLINE, ACS_HLINE);
 		box(pbox, ACS_VLINE, ACS_HLINE);

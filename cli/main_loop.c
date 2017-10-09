@@ -14,22 +14,22 @@
 
 static void events(t_client *client)
 {
+	char	ln[PROMPT_SIZE_MAX];
+	int		len;
+	char	*line;
 
-	char ln[PROMPT_SIZE_MAX];
-	int len = 0;
 	if (NCURSE)
 	{
 		len = get_line_non_blocking(&client->lnbuffer, ln, sizeof(ln));
 		if(len > 0 && ft_strlen(ln)) {
 			cmd_out(ln, client);
 			ft_bzero(ln, PROMPT_SIZE_MAX);
-			view(client);
-			refresh();
 		}
+		view(client);
+		refresh();
 	}
 	else
 	{
-		char	*line;
 		get_next_line_single(STDIN_FILENO, &line);
 		cmd_out(line, client);
 		free(line);
@@ -37,7 +37,7 @@ static void events(t_client *client)
 	}
 }
 
-int loop(t_client *client)
+static int initfd(t_client *client)
 {
 	FD_ZERO(&client->fd_read);
 	FD_ZERO(&client->fd_write);
@@ -49,9 +49,12 @@ int loop(t_client *client)
 			FD_SET(client->socket, &client->fd_write);
 	}
 	if (select(client->socket + 1, &client->fd_read, &client->fd_write, NULL, NULL) == -1)
-	{
 		return (1);
-	}
+	return (0);
+}
+
+static int checkfd(t_client *client)
+{
 	if (FD_ISSET(STDIN_FILENO, &client->fd_read))
 	{
 		events(client);
@@ -74,4 +77,10 @@ int loop(t_client *client)
 			server_write(client);
 	}
    return (client->exit);
+}
+
+int loop(t_client *client)
+{
+	initfd(client);
+	return (checkfd(client));
 }

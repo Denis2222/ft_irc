@@ -23,8 +23,6 @@ void	server_write(t_client *e)
 		length = SPEED_MAX;
 
 	res = send(e->socket, e->buf_write, length, 0);
-	printf("Send %d octets\n", res);
-
     if (res > 0)
     {
 		bzero(tmp, BUF_SIZE + 1);
@@ -37,21 +35,17 @@ void	server_write(t_client *e)
 		printf("Server disconnect");
 		exit(1);
 	}
-	printf("Buf_write : %s \n", e->buf_write);
     return ;
 }
 
 void presend(t_client *e, char *cmd)
 {
-	dprintf(2, "Presend : %s \n", cmd);
 	if (ft_strlen(e->buf_write) + ft_strlen(cmd) + 1> BUF_SIZE)
 	{
-		printf("Buffer Overflow !!! Trash that or Disconnect this spam er [%s] !", e->buf_write);
 		return ;
-	} 
+	}
 	if (ft_strlen(cmd) == 0)
 		return ;
 	ft_strcat(e->buf_write, cmd);
 	ft_strcat(e->buf_write, "\n");
-	dprintf(2, "Presend: buf_write : |%s|\n", e->buf_write);
 }

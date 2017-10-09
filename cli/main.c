@@ -25,11 +25,8 @@ static void init_client(t_client *client)
 	make_buffer(&client->lnbuffer);
 }
 
-int main(int ac, char **argv)
+static void init_ncurse(void)
 {
-	t_client client;
-
-	init_client(&client);
 	if (NCURSE)
 	{
 		initscr();
@@ -47,29 +44,33 @@ int main(int ac, char **argv)
 		init_pair(2, COLOR_GREEN, COLOR_BLACK);
 		init_pair(3, COLOR_BLUE, COLOR_BLACK);
 	}
-	if (ac == 3)
-	{
-		connect_host(argv[1], argv[2], &client);
-		client.connect = 1;
-	}
-	
-	showmsghelp(&client);
-	view(&client);
-	refresh();
-	while(42)
-	{
-		if (!loop(&client))
-		{
-			ft_dprintf(2, "Break main loop return 0");
-			break;
-		}
-	}
-	close(client.socket);
-	destroy_buffer(&client.lnbuffer);
+}
+
+static void end_ncurse(void)
+{
 	if (NCURSE)
 	{
 		delwin(stdscr);
 		endwin();
 	}
+}
+
+int main(int ac, char **argv)
+{
+	t_client client;
+
+	init_client(&client);
+	init_ncurse();
+	showmsghelp(&client);
+	if (ac > 1)
+		tryconnect(&client, ac, argv);
+	view(&client);
+	refresh();
+	while(42)
+		if (!loop(&client))
+			break;
+	close(client.socket);
+	destroy_buffer(&client.lnbuffer);
+	end_ncurse();
 	return (0);
 }
