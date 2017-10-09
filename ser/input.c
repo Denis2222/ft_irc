@@ -26,12 +26,16 @@ void input_message(t_env *e, int cs, char *buffer)
 				if (ft_strcmp(e->fds[i].channel, e->fds[cs].channel) == 0) // Only same channel
 				{
 					char *msg;
+					char *full;
 
-					msg = ft_mprintf("/newmsg [%s][%s]:%s\n", e->fds[cs].channel, e->fds[cs].name, buffer);
-					ft_printf("#%d -> %s\n",i,  msg);
+					msg = ft_mprintf("/newmsg [%s][%s]:", e->fds[cs].channel, e->fds[cs].name);
+					full = ft_strjoin(msg, buffer);
+					free(msg);
+					//asprintf(&msg, "/newmsg [%s][%s]:%s\n", e->fds[cs].channel, e->fds[cs].name, buffer);
+					msg = ft_strjoin(full, "\n");
 					presend(e, i, msg);
 					free(msg);
-
+					free(full);
 				}
 			}
 		}
@@ -113,16 +117,34 @@ void input_command(t_env *e, int cs, char *buffer)
 	char **tab;
 	char  *str;
 
-	ft_printf("CMD:%s %s %s\n", e->fds[cs].channel, e->fds[cs].name, buffer);
 	tab = ft_strsplit(buffer, ' ');
-	if (ft_strncmp(buffer, "/nick ", 6) == 0 && ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]))
+	if (ft_strncmp(buffer, "/nick ", 6) == 0)
 	{
-		if (!search_user(e, tab[1]))
+		if (ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]) > 2 && ft_strlen(tab[1]) < 10) 
 		{
-			ft_strcpy(e->fds[cs].name, tab[1]);
-			str = ft_mprintf("%s\n/newmsg [%s][server] : Nickname changed to %s\n", buffer,e->fds[cs].channel, e->fds[cs].name);
+			if (!search_user(e, tab[1]))
+			{
+				ft_strcpy(e->fds[cs].name, tab[1]);
+				str = ft_mprintf("%s\n/newmsg [%s][server] : Nickname changed to %s\n", buffer,e->fds[cs].channel, e->fds[cs].name);
+				presend(e, cs, str);
+				free(str);
+			}
+			else
+			{
+				ft_strcpy(e->fds[cs].channel, GENERAL_CHANNEL);
+				str = ft_mprintf("/newmsg [server] nick already use");
+				presend(e, cs, str);
+				free(str);
+				presend(e, cs, "\n");
+			}
+		}
+		else
+		{
+			ft_strcpy(e->fds[cs].channel, GENERAL_CHANNEL);
+			str = ft_mprintf("/newmsg [server] Invalid nick name");
 			presend(e, cs, str);
 			free(str);
+			presend(e, cs, "\n");
 		}
 	}
 	if (ft_strncmp(buffer, "/join ", 6) ==0 && ft_tablen(tab) > 1 && tab[1] && ft_strlen(tab[1]))
@@ -131,6 +153,15 @@ void input_command(t_env *e, int cs, char *buffer)
 		presend(e, cs, buffer);
 		presend(e, cs, "\n");
 
+	}
+
+	if (ft_strncmp(buffer, "/leave", 6) == 0)
+	{
+		ft_strcpy(e->fds[cs].channel, GENERAL_CHANNEL);
+		str = ft_mprintf("/join %s", GENERAL_CHANNEL);
+		presend(e, cs, str);
+		free(str);
+		presend(e, cs, "\n");
 	}
 
 	if (ft_strncmp(buffer, "/msg", 2) == 0 && ft_tablen(tab) > 2 && tab[1] && tab[1] && ft_strlen(tab[1]))

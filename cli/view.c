@@ -29,16 +29,21 @@ void render_text(t_client *client)
 
 void view(t_client *client)
 {
+	char *nb;
+	WINDOW *cbox;
+	WINDOW *pbox;
 	if (NCURSE)
 	{
 		clear();
+		cbox = subwin(stdscr, LINES -5, COLS, 0, 0);
+		pbox = subwin(stdscr, 4, COLS, LINES -4, 0);
 		client->infobox = subwin(stdscr, 3, COLS, LINES -6, 0);
-		client->chatbox = subwin(stdscr, LINES -5, COLS, 0, 0);
-		client->promptbox = subwin(stdscr, 4, COLS, LINES -4, 0);
+		client->chatbox = subwin(stdscr, LINES -6, COLS-2, 1, 1);
+		client->promptbox = subwin(stdscr, 2, COLS - 2, LINES -3, 1);
 		scrollok(client->chatbox, TRUE);
 		scrollok(client->promptbox, TRUE);
 		render_text(client);
-		wmove(client->promptbox, 1, 1);
+		wmove(client->promptbox, 0, 0);
 		render_line(&client->lnbuffer, client->promptbox);
 		wmove(client->infobox, 1, 1);
 		waddstr(client->infobox, "Niickname :");
@@ -47,11 +52,13 @@ void view(t_client *client)
 		waddstr(client->infobox, client->channel);
 		waddstr(client->infobox, " | NB Message :");
 
-		waddstr(client->infobox, ft_itoa(lenmsg(client->msg)));
+		nb = ft_itoa(lenmsg(client->msg));
+		waddstr(client->infobox, nb);
+		free(nb);
 		
 		box(client->infobox, ACS_VLINE, ACS_HLINE);
-		box(client->chatbox, ACS_VLINE, ACS_HLINE);
-		box(client->promptbox, ACS_VLINE, ACS_HLINE);
+		box(cbox, ACS_VLINE, ACS_HLINE);
+		box(pbox, ACS_VLINE, ACS_HLINE);
 		wrefresh(client->chatbox);
 		wrefresh(client->infobox);
 		wrefresh(client->promptbox);

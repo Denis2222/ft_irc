@@ -16,9 +16,10 @@ static void init_client(t_client *client)
 {
 	client->connect = 0;
 	client->msg = NULL;
+	client->lines_read = 0;
+	client->exit = 1;
 	ft_strcpy(client->name, "");
 	ft_strcpy(client->channel, "");
-	client->lines_read = 0;
 	ft_bzero(client->buf_write, BUF_SIZE + 1);
 	ft_bzero(client->buf_read, BUF_SIZE + 1);
 	make_buffer(&client->lnbuffer);
@@ -51,12 +52,17 @@ int main(int ac, char **argv)
 		connect_host(argv[1], argv[2], &client);
 		client.connect = 1;
 	}
-	refresh();
+	
+	showmsghelp(&client);
 	view(&client);
+	refresh();
 	while(42)
 	{
 		if (!loop(&client))
+		{
+			ft_dprintf(2, "Break main loop return 0");
 			break;
+		}
 	}
 	close(client.socket);
 	destroy_buffer(&client.lnbuffer);
@@ -64,7 +70,6 @@ int main(int ac, char **argv)
 	{
 		delwin(stdscr);
 		endwin();
-		refresh();
 	}
 	return (0);
 }

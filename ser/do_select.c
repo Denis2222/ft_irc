@@ -9,5 +9,5 @@ void	do_select(t_env *e)
 	timeout.tv_sec = 30;
 	e->r = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, &timeout);
 	if (e->r <= 0)
-		ft_printf("select():%d", e->r);
+		ft_printf("idle...\n", e->r);
 }

@@ -15,7 +15,7 @@
 int connect_host(char *host, char *port, t_client *client)
 {
 	(void)host;
-	if (checkhost(client) == 1)
+	if (checkhost(client, host) == 1)
 		return (0);
 	if (checksocket(client) == 1)
 		return (0);
@@ -24,14 +24,14 @@ int connect_host(char *host, char *port, t_client *client)
 	return (1);
 }
 
-int checkhost(t_client *client)
+int checkhost(t_client *client, char *hostname)
 {
-	const char		*hostname = "localhost";
 	struct hostent	*hostinfo = NULL;
 
 	hostinfo = gethostbyname(hostname);
 	if (hostinfo == NULL) /* l'hôte n'existe pas */
 	{
+		writemsg(client, "        Unknown host\n");
 	    ft_printf ("Unknown host %s.\n", hostname);
 	    return (1);
 	}
@@ -54,6 +54,7 @@ int connectsocket(t_client *client, char *port)
 {
 	if (port == NULL || ft_atoi(port) <= 0)
 	{
+		writemsg(client, "        Invalid port number");
 		ft_printf("Invalid port number");
 		return (1);
 	}
@@ -63,9 +64,10 @@ int connectsocket(t_client *client, char *port)
 	client->sin.sin_family = AF_INET;
 	if(connect(client->socket,(struct sockaddr *) &client->sin, sizeof(struct sockaddr)) == SOCKET_ERROR)
 	{
-    	ft_printf("connect()");
+    	writemsg(client, "        Connection fail : Check host and port !\n");
     	return (1);
 	}
+	writemsg(client, "        Connection established !\n");
 	ft_printf("Connection established !\n");
 	return (0);
 }

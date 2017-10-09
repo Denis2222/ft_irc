@@ -14,21 +14,31 @@
 
 int cmd_out(char *line, t_client *client)
 {
-   char **cmd;
+	char **cmd;
 
-   if (ft_strnstr(line, "/connect ", 9))
-   {
-	  cmd = ft_strsplit(line, ' ');
-	  ft_printf("connect to : %s ...\n", cmd[1]);
-	  ft_printf("HERE?");
-	  if (connect_host(cmd[1], cmd[2], client))
-		client->connect = 1;
-   } else {
-		if (client->connect) {
-			presend(client, line);
-		}
-   }
-   return (0);
+	ft_dprintf(2, "LOL");
+
+	if ((ft_strncmp(line, "/help", 5) == 0))
+		showmsghelp(client);
+	else if ((ft_strncmp(line, "/connect ", 9) == 0) && !client->connect)
+	{
+		cmd = ft_strsplit(line, ' ');
+		if (connect_host(cmd[1], cmd[2], client))
+			client->connect = 1;
+		ft_tabfree(cmd);
+	}
+	else if ((ft_strncmp(line, "/disconnect", 11) == 0) && client->connect) 
+	{
+		close(client->socket);
+		client->connect = 0;
+	}
+	else if (ft_strncmp(line, "/quit", 5) == 0)
+		client->exit = 0;
+	else if (client->connect) 
+		presend(client, line);
+	else 
+		ft_dprintf(2, "Nothing to do\n");
+	return (0);
 }
 
 char *cmd_from_buffer(char *buffer)
@@ -42,7 +52,6 @@ char *cmd_from_buffer(char *buffer)
 	length = ft_strlen(buffer);
 	pos = ft_strlen(ft_strchr(buffer, '\n'));
 	cmdlength = length - pos+1;
-	
 	cmd = ft_strsub(buffer, 0, cmdlength - 1);
 	tmp = ft_strsub(buffer, cmdlength, length);
 	ft_bzero(buffer, BUF_SIZE + 1);
@@ -55,30 +64,29 @@ int cmd_in(t_client *client)
 {
 	char **tab;
 	char *cmd;
+	char *str;
 
 	if (ft_strlen(client->buf_read) > 0)
 	{
 		while (ft_strchr(client->buf_read, '\n'))
 		{
-			dprintf(2, " return detect go \n");
 			cmd = cmd_from_buffer(client->buf_read);
-			dprintf(2, " cmd exrtract from buffer |%s| \n", cmd);
 			if (cmd[0] == '/') {
 				tab = ft_strsplit(cmd, ' ');
 				if (ft_strnstr(cmd, "/nick ", 6))
 				{
 					ft_strcpy(client->name, tab[1]);
-					ft_printf("Change name");
 				}
-				if (ft_strnstr(cmd, "/join ", 6))
+				else if (ft_strnstr(cmd, "/join ", 6))
 				{
-					ft_printf("Change channel");
+					str = ft_mprintf("/newmsg [server] Switch to %s channel", tab[1]);
+					writemsg(client, str);
+					free(str);
 					ft_strcpy(client->channel, tab[1]);
 				}
-				if (ft_strncmp(cmd, "/newmsg", 7) == 0)
+				else if (ft_strncmp(cmd, "/newmsg", 7) == 0)
 				{
-					ft_dprintf(2, "\nNEW MESSAGE  %s\n", &cmd[7]);
-					client->msg = addmsg(&client->msg, newmsg(&cmd[7], client));
+					writemsg(client, cmd);
 				}
 				ft_tabfree(tab);
 			}

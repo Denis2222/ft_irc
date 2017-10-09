@@ -19,6 +19,9 @@
 
 # define USAGE		"Usage: %s [port 9999]\n"
 
+# define GENERAL_CHANNEL "general"
+# define DEFAULT_NAME "guest"
+
 typedef struct	s_fd
 {
   int			type;

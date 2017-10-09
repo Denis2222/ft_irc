@@ -17,14 +17,10 @@ static void events(t_client *client)
 
 	char ln[PROMPT_SIZE_MAX];
 	int len = 0;
-
 	if (NCURSE)
 	{
 		len = get_line_non_blocking(&client->lnbuffer, ln, sizeof(ln));
 		if(len > 0 && ft_strlen(ln)) {
-			if(ft_strcmp(ln, "exit") == 0) {
-				ft_printf("Exit ask");
-			}
 			cmd_out(ln, client);
 			ft_bzero(ln, PROMPT_SIZE_MAX);
 			view(client);
@@ -67,7 +63,7 @@ int loop(t_client *client)
 		{
 			if (read_server(client) == 0)
 			{
-				client->msg = addmsg(&client->msg, newmsg("Disconnected\n", client));
+				writemsg(client, "Disconnected\n");
 				client->connect = 0;
 			}
 			cmd_in(client);
@@ -77,5 +73,5 @@ int loop(t_client *client)
 		if (FD_ISSET(client->socket, &client->fd_write))
 			server_write(client);
 	}
-   return (1);
+   return (client->exit);
 }

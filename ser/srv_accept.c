@@ -9,6 +9,7 @@ void			srv_accept(t_env *e, int s)
 	int			cs;
 	struct sockaddr_in	csin;
 	socklen_t		csin_len;
+	char *name;
 
 	csin_len = sizeof(csin);
 	cs = X(-1, accept(s, (struct sockaddr*)&csin, &csin_len), "accept");
@@ -18,16 +19,18 @@ void			srv_accept(t_env *e, int s)
 	e->fds[cs].fct_read = client_read;
 	e->fds[cs].fct_write = client_write;
 
-	ft_strcpy(e->fds[cs].name,"guest");
-	ft_strcat(e->fds[cs].name, ft_itoa(cs));
+	ft_strcpy(e->fds[cs].name,DEFAULT_NAME);
+	name = ft_itoa(cs);
+	ft_strcat(e->fds[cs].name, name);
+	free(name);
 	ft_strcat(e->fds[cs].name, "");
-	ft_strcpy(e->fds[cs].channel, "general");
+	ft_strcpy(e->fds[cs].channel, GENERAL_CHANNEL);
 	ft_bzero(e->fds[cs].buf_read, BUF_SIZE+1);
 	ft_bzero(e->fds[cs].buf_write, BUF_SIZE+1);
 
 	ft_printf("{red}%s{eoc}", e->fds[cs].name);
 	char *connectmsg;
-	connectmsg = ft_mprintf("/nick %s\n/join %s \n /newmsg ===================\n/newmsg ===================\n/newmsg [Server]Welcome IRC\n/newmsg ===================\n/newmsg ===================\n", e->fds[cs].name, e->fds[cs].channel);
+	connectmsg = ft_mprintf("/nick %s\n/join %s \n/newmsg ===================\n/newmsg ===================\n/newmsg [Server]Welcome IRC\n/newmsg ===================\n/newmsg ===================\n", e->fds[cs].name, e->fds[cs].channel);
 	ft_printf("Send all %s", connectmsg);
 	presend(e, cs, connectmsg);
 	free(connectmsg);

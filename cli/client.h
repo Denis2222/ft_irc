@@ -28,6 +28,7 @@
 #define SOCKET_ERROR -1
 #define PORT 8067
 #define PROMPT_SIZE_MAX 500
+#define MAX_MSG 100
 #define SPEED_MAX 20
 
 #define NCURSE 1
@@ -51,6 +52,7 @@ typedef struct		s_client
 {
 	int 			lines_read;
 	int				connect;
+	int				exit;
 	struct hostent	*hostinfo;
 	int				socket;
 	struct sockaddr_in sin;
@@ -72,7 +74,7 @@ typedef struct		s_client
 }					t_client;
 
 int connect_host(char *host, char *port, t_client *client);
-int checkhost(t_client *client);
+int checkhost(t_client *client, char *host);
 int checksocket (t_client *client);
 int connectsocket(t_client *client, char *port);
 
@@ -101,6 +103,8 @@ int get_line_non_blocking(struct input_line *buf, char *target, int max_len);
 t_msg	*newmsg(char *text, t_client *client);
 t_msg	*addmsg(t_msg **lstmsg, t_msg *msg);
 int		lenmsg(t_msg *msg);
+void	writemsg(t_client *client, char *cmd);
+void	showmsghelp(t_client *client);
 
 //view.c
 void render_text(t_client *client);

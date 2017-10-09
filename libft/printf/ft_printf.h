@@ -33,7 +33,7 @@
 # define KUNDER "\e[4m"
 # define KBLINK "\e[5m"
 # define KINV   "\e[7m"
-# define PRINTFBUFFER 1024
+# define PRINTFBUFFER 2048
 
 int					ft_printf(char *format, ...);
 int					ft_dprintf(int fd, char *format, ...);

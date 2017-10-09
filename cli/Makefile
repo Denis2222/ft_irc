@@ -6,7 +6,8 @@ SRCS = main.c \
 	main_loop.c \
 	prompt.c \
 	t_msg.c \
-	view.c
+	view.c \
+	msghelp.c
 
 NAME = client
 GCC_FLAGS = -Werror -Wextra -Wall -g

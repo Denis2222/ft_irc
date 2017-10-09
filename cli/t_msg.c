@@ -66,3 +66,17 @@ int		lenmsg(t_msg *msg)
 	}
 	return (length);
 }
+
+void	writemsg(t_client *client, char *cmd)
+{
+	t_msg *tmp;
+	
+	client->msg = addmsg(&client->msg, newmsg(&cmd[7], client));
+	if (lenmsg(client->msg) > MAX_MSG)
+	{
+		tmp = client->msg->next;
+		free(client->msg->text);
+		free(client->msg);
+		client->msg = tmp;
+	}
+}
