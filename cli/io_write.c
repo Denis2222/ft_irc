@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 15:56:43 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/06 15:04:58 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/10 03:05:51 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,32 @@
 
 void	server_write(t_client *e)
 {
-    char tmp[BUF_SIZE + 1];
-    int res;
-	int length;
+	char	tmp[BUF_SIZE + 1];
+	int		res;
+	int		length;
 
 	length = ft_strlen(e->buf_write);
 	if (length > SPEED_MAX)
 		length = SPEED_MAX;
-
 	res = send(e->socket, e->buf_write, length, 0);
-    if (res > 0)
-    {
+	if (res > 0)
+	{
 		bzero(tmp, BUF_SIZE + 1);
-        ft_strcpy(tmp, &e->buf_write[res]);
-        ft_bzero(e->buf_write, BUF_SIZE + 1);
-        ft_strcpy(e->buf_write, tmp);
-    }
+		ft_strcpy(tmp, &e->buf_write[res]);
+		ft_bzero(e->buf_write, BUF_SIZE + 1);
+		ft_strcpy(e->buf_write, tmp);
+	}
 	if (res == 0)
 	{
 		printf("Server disconnect");
 		exit(1);
 	}
-    return ;
+	return ;
 }
 
-void presend(t_client *e, char *cmd)
+void	presend(t_client *e, char *cmd)
 {
-	if (ft_strlen(e->buf_write) + ft_strlen(cmd) + 1> BUF_SIZE)
+	if (ft_strlen(e->buf_write) + ft_strlen(cmd) + 1 > BUF_SIZE)
 	{
 		return ;
 	}

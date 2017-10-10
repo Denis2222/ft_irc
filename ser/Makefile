@@ -12,10 +12,11 @@ SRCS =	main.c \
 	client_read.c \
 	client_write.c \
 	input.c \
+	input_action.c \
 	send.c
 
 NAME = server
-GCC_FLAGS = -Wall -Werror -g
+GCC_FLAGS = -Wall -Werror -Wextra -g
 CC = gcc $(GCC_FLAGS)
 SRCDIR = ./
 OBJDIR = ./objs

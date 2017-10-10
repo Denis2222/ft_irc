@@ -5,12 +5,13 @@ SRCS = main.c \
 	io_write.c \
 	main_loop.c \
 	prompt.c \
+	prompt2.c \
 	t_msg.c \
 	view.c \
 	msghelp.c
 
 NAME = client
-GCC_FLAGS = -Werror -Wextra -Wall -g
+GCC_FLAGS = -Wall -Werror -Wextra -g
 CC = clang $(GCC_FLAGS)
 SRCDIR = ./
 OBJDIR = ./objs

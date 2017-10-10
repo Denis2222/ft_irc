@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_msg.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anonymou <anonymou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 18:36:48 by anonymou          #+#    #+#             */
-/*   Updated: 2017/10/04 12:50:37 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/10 03:12:55 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_msg	*newmsg(char *text, t_client *client)
 			msg->color = 3;
 		ft_tabfree(tab);
 	}
-
 	return (msg);
 }
 
@@ -69,8 +68,8 @@ int		lenmsg(t_msg *msg)
 
 void	writemsg(t_client *client, char *cmd)
 {
-	t_msg *tmp;
-	
+	t_msg	*tmp;
+
 	client->msg = addmsg(&client->msg, newmsg(&cmd[7], client));
 	if (lenmsg(client->msg) > MAX_MSG)
 	{

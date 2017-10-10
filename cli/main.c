@@ -6,13 +6,13 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/06 15:04:53 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/10 03:11:17 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static void init_client(t_client *client)
+static void	init_client(t_client *client)
 {
 	client->connect = 0;
 	client->msg = NULL;
@@ -25,20 +25,20 @@ static void init_client(t_client *client)
 	make_buffer(&client->lnbuffer);
 }
 
-static void init_ncurse(void)
+static void	init_ncurse(void)
 {
 	if (NCURSE)
 	{
 		initscr();
 		start_color();
-		cbreak();             // Immediate key input
-		nonl();               // Get return key
-		timeout(0);           // Non-blocking input
-		keypad(stdscr, 1);    // Fix keypad
-		noecho();             // No automatic printing
-		curs_set(0);          // Hide real cursor
-		intrflush(stdscr, 0); // Avoid potential graphical issues
-		leaveok(stdscr, 1);   // Don't care where cursor is left
+		cbreak();
+		nonl();
+		timeout(0);
+		keypad(stdscr, 1);
+		noecho();
+		curs_set(0);
+		intrflush(stdscr, 0);
+		leaveok(stdscr, 1);
 		clear();
 		init_pair(1, COLOR_RED, COLOR_BLACK);
 		init_pair(2, COLOR_GREEN, COLOR_BLACK);
@@ -46,7 +46,7 @@ static void init_ncurse(void)
 	}
 }
 
-static void end_ncurse(void)
+static void	end_ncurse(void)
 {
 	if (NCURSE)
 	{
@@ -55,7 +55,7 @@ static void end_ncurse(void)
 	}
 }
 
-int main(int ac, char **argv)
+int			main(int ac, char **argv)
 {
 	t_client client;
 
@@ -66,9 +66,9 @@ int main(int ac, char **argv)
 		tryconnect(&client, ac, argv);
 	view(&client);
 	refresh();
-	while(42)
+	while (42)
 		if (!loop(&client))
-			break;
+			break ;
 	close(client.socket);
 	destroy_buffer(&client.lnbuffer);
 	end_ncurse();

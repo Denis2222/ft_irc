@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/04 18:06:16 by dmoureu-         ###   ########.fr       */
+/*   Created: 2017/10/10 02:55:56 by dmoureu-          #+#    #+#             */
+/*   Updated: 2017/10/10 02:58:54 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-int cmd_out(char *line, t_client *client)
+int			cmd_out(char *line, t_client *client)
 {
 	char **cmd;
 
@@ -25,31 +25,31 @@ int cmd_out(char *line, t_client *client)
 			client->connect = 1;
 		ft_tabfree(cmd);
 	}
-	else if ((ft_strncmp(line, "/disconnect", 11) == 0) && client->connect) 
+	else if ((ft_strncmp(line, "/disconnect", 11) == 0) && client->connect)
 	{
 		close(client->socket);
 		client->connect = 0;
 	}
 	else if (ft_strncmp(line, "/quit", 5) == 0)
 		client->exit = 0;
-	else if (client->connect) 
+	else if (client->connect)
 		presend(client, line);
-	else 
+	else
 		ft_dprintf(2, "Nothing to do\n");
 	return (0);
 }
 
-char *cmd_from_buffer(char *buffer)
+char		*cmd_from_buffer(char *buffer)
 {
-	int length;
-	int cmdlength;
-	int pos;
-	char *cmd;
+	int		length;
+	int		cmdlength;
+	int		pos;
+	char	*cmd;
+	char	*tmp;
 
-	char *tmp;
 	length = ft_strlen(buffer);
 	pos = ft_strlen(ft_strchr(buffer, '\n'));
-	cmdlength = length - pos+1;
+	cmdlength = length - pos + 1;
 	cmd = ft_strsub(buffer, 0, cmdlength - 1);
 	tmp = ft_strsub(buffer, cmdlength, length);
 	ft_bzero(buffer, BUF_SIZE + 1);
@@ -58,7 +58,7 @@ char *cmd_from_buffer(char *buffer)
 	return (cmd);
 }
 
-static void cmd_in_switch(t_client *client, char *cmd)
+static void	cmd_in_switch(t_client *client, char *cmd)
 {
 	char	**tab;
 	char	*str;
@@ -82,7 +82,7 @@ static void cmd_in_switch(t_client *client, char *cmd)
 	ft_tabfree(tab);
 }
 
-int cmd_in(t_client *client)
+int			cmd_in(t_client *client)
 {
 	char *cmd;
 

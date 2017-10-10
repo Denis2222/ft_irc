@@ -1,8 +1,18 @@
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   srv_create.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/10 04:20:37 by dmoureu-          #+#    #+#             */
+/*   Updated: 2017/10/10 05:13:38 by dmoureu-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include <stdlib.h>
 #include <netdb.h>
 #include <netinet/in.h>
-
 #include "bircd.h"
 
 void			srv_create(t_env *e, int port)
@@ -11,7 +21,7 @@ void			srv_create(t_env *e, int port)
 	struct sockaddr_in	sin;
 	struct protoent		*pe;
 
-	pe = (struct protoent*)Xv(NULL, getprotobyname("tcp"), "getprotobyname");
+	pe = (struct protoent*)XV(NULL, getprotobyname("tcp"), "getprotobyname");
 	s = X(-1, socket(PF_INET, SOCK_STREAM, pe->p_proto), "socket");
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = INADDR_ANY;
