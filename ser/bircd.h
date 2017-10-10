@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 05:12:58 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 06:57:01 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 01:42:35 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define SPEED_MAX 			20
 # define MAX_CMD_SIZE 		512
 # define USAGE				"Usage: %s [port 9999]\n"
-# define GENERAL_CHANNEL	"general"
+# define GENERAL_CHANNEL	"#general"
 # define DEFAULT_NAME		"guest"
 
 typedef struct	s_fd

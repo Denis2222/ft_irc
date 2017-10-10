@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 06:26:59 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 06:54:28 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 01:45:43 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,16 @@ static void	input_command_nick(t_env *e, int cs, char **tab, char *buffer)
 
 static void	input_command_join(t_env *e, int cs, char **tab, char *buffer)
 {
-	ft_strcpy(e->fds[cs].channel, tab[1]);
-	presend(e, cs, buffer);
-	presend(e, cs, "\n");
+	if (ft_strlen(tab[1]) > 3 && ft_strlen(tab[1]) < 17 && tab[1][0] == '#')
+	{
+		ft_strcpy(e->fds[cs].channel, tab[1]);
+		presend(e, cs, buffer);
+		presend(e, cs, "\n");
+	}
+	else
+	{
+		presend(e, cs, "/newmsg [server] invalid channel name ( /join [#name]  #name MAX 16 MIN 4)\n");
+	}
 }
 
 static void	input_command_leave(t_env *e, int cs)
