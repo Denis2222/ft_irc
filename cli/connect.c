@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/26 07:47:04 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 03:19:35 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/10 08:25:46 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,20 @@
 
 void	tryconnect(t_client *client, int ac, char **argv)
 {
+	char **tab;
+
 	if (ac == 2)
-		if (connect_host(argv[1], "2000", client))
+	{
+		tab = ft_strsplit(argv[1], ':');
+		if (ft_tablen(tab) > 1)
+		{
+			if (connect_host(tab[0], tab[1], client))
+				client->connect = 1;
+		}
+		else if (connect_host(argv[1], "2000", client))
 			client->connect = 1;
+		ft_tabfree(tab);
+	}
 	if (ac == 3)
 		if (connect_host(argv[1], argv[2], client))
 			client->connect = 1;
@@ -24,7 +35,6 @@ void	tryconnect(t_client *client, int ac, char **argv)
 
 int		connect_host(char *host, char *port, t_client *client)
 {
-	(void)host;
 	if (checkhost(client, host) == 1)
 		return (0);
 	if (checksocket(client) == 1)

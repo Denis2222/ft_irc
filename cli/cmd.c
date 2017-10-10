@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 02:55:56 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 02:58:54 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/10 07:55:22 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int			cmd_out(char *line, t_client *client)
 	else if ((ft_strncmp(line, "/connect ", 9) == 0) && !client->connect)
 	{
 		cmd = ft_strsplit(line, ' ');
-		if (connect_host(cmd[1], cmd[2], client))
-			client->connect = 1;
+		tryconnect(client, ft_tablen(cmd), cmd);
 		ft_tabfree(cmd);
 	}
 	else if ((ft_strncmp(line, "/disconnect", 11) == 0) && client->connect)
