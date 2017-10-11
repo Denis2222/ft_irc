@@ -6,13 +6,13 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/11 02:05:09 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 06:12:15 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static void	events(t_client *client)
+static int	events(t_client *client)
 {
 	char	ln[PROMPT_SIZE_MAX];
 	int		len;
@@ -26,8 +26,8 @@ static void	events(t_client *client)
 			cmd_out(ln, client);
 			ft_bzero(ln, PROMPT_SIZE_MAX);
 		}
-		view(client);
-		refresh();
+		else if (len == -1)
+			return (0);
 	}
 	else
 	{
@@ -36,6 +36,7 @@ static void	events(t_client *client)
 		free(line);
 		line = NULL;
 	}
+	return (1);
 }
 
 static int	initfd(t_client *client)
@@ -57,12 +58,15 @@ static int	initfd(t_client *client)
 
 static int	checkfd(t_client *client)
 {
+	int event;
+
+	event = 1;
 	if (FD_ISSET(STDIN_FILENO, &client->fd_read))
 	{
-		events(client);
+		event = events(client);
 		view(client);
 	}
-	if (client->connect)
+	if (client->connect && event > 0)
 	{
 		if (FD_ISSET(client->socket, &client->fd_read))
 		{
@@ -72,7 +76,6 @@ static int	checkfd(t_client *client)
 				client->connect = 0;
 			}
 			cmd_in(client);
-			refresh();
 			view(client);
 		}
 		if (FD_ISSET(client->socket, &client->fd_write))

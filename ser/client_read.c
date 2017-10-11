@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 15:42:07 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 06:57:59 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 06:03:42 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,17 @@
 #include <sys/socket.h>
 #include "bircd.h"
 
+static int	ft_isvalidchar(int c)
+{
+	if (ft_isprint(c) || (c >= 9 && c <= 15))
+		return (1);
+	return (0);
+}
+
 static void	client_read_ok(t_env *e, int cs, int head, int res)
 {
 	e->fds[cs].buf_read[head + res] = 0;
-	if (!ft_streachr(e->fds[cs].buf_read, ft_isprint))
+	if (!ft_streachr(e->fds[cs].buf_read, ft_isvalidchar))
 	{
 		bzero(e->fds[cs].buf_read, BUF_SIZE);
 		ft_printf("Client %d eject for spam non ascii haxx !", cs);

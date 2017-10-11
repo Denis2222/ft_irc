@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 02:55:56 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/11 02:07:53 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 05:00:33 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ static void	cmd_in_switch(t_client *client, char *cmd)
 	char	*str;
 
 	tab = ft_strsplit(cmd, ' ');
-	if (ft_strnstr(cmd, "/nick ", 6))
+	if (ft_strncmp(cmd, "/nick ", 6) == 0)
 	{
 		ft_strcpy(client->name, tab[1]);
 	}
-	else if (ft_strnstr(cmd, "/join ", 6))
+	else if (ft_strncmp(cmd, "/join ", 6) == 0)
 	{
 		str = ft_mprintf("/newmsg [server] Switch to %s channel", tab[1]);
 		writemsg(client, str);

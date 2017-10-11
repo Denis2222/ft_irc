@@ -11,7 +11,7 @@ SRCS = main.c \
 	msghelp.c
 
 NAME = client
-GCC_FLAGS = -Wall -Werror -Wextra -g
+GCC_FLAGS = -Wall -Werror -Wextra
 CC = clang $(GCC_FLAGS)
 SRCDIR = ./
 OBJDIR = ./objs

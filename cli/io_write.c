@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 15:56:43 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 03:05:51 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 04:35:08 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	server_write(t_client *e)
 	}
 	if (res == 0)
 	{
-		printf("Server disconnect");
+		ft_printf("Server disconnect");
 		exit(1);
 	}
 	return ;

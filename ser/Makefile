@@ -16,7 +16,7 @@ SRCS =	main.c \
 	send.c
 
 NAME = server
-GCC_FLAGS = -Wall -Werror -Wextra -g
+GCC_FLAGS = -Wall -Werror -Wextra
 CC = gcc $(GCC_FLAGS)
 SRCDIR = ./
 OBJDIR = ./objs

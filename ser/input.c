@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 06:26:59 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/11 02:32:38 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 05:03:57 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	input_command_nick(t_env *e, int cs, char **tab, char *buffer)
 {
 	char	*str;
 
+	ft_printf("Input_command_nick [%s]\n", buffer);
 	if (ft_tablen(tab) > 1
 		&& tab[1]
 		&& ft_strlen(tab[1]) > 2

@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 02:28:48 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 03:23:45 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 05:55:40 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		handle_input_key(t_inline *buf, int key)
 
 int		handle_input(t_inline *buf, char *target, int max_len, int key)
 {
-	if (!(key & KEY_CODE_YES) && isprint(key))
+	if (!(key & KEY_CODE_YES) && ft_isprint(key))
 	{
 		add_char(buf, key);
 		return (0);
@@ -99,8 +99,10 @@ int		get_line_non_blocking(t_inline *buf, char *target, int max_len)
 	while (1)
 	{
 		key = getch();
-		if (key == ERR || key == KEY_RESIZE)
+		if (key == ERR)
 			return (0);
+		if (key == KEY_RESIZE)
+			return (-1);
 		n = handle_input(buf, target, max_len, key);
 		if (n)
 			return (n);
