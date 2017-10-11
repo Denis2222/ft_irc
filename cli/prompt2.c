@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 03:23:14 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 03:23:55 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 06:25:03 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	make_buffer(t_inline *buf)
 {
 	buf->ln = malloc(PROMPT_SIZE_MAX + 1);
-	bzero(buf->ln, PROMPT_SIZE_MAX + 1);
+	ft_bzero(buf->ln, PROMPT_SIZE_MAX + 1);
 	buf->length = 0;
 	buf->capacity = PROMPT_SIZE_MAX;
 	buf->cursor = 0;

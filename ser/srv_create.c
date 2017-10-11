@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 04:20:37 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/11 02:29:26 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 06:33:30 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void			srv_create(t_env *e, int port)
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = INADDR_ANY;
 	sin.sin_port = htons(port);
-	ft_printf("%d", sin.sin_port);
 	X(-1, bind(s, (struct sockaddr*)&sin, sizeof(sin)), "bind");
 	X(-1, listen(s, 42), "listen");
 	e->fds[s].type = FD_SERV;

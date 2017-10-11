@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 15:42:07 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/11 06:03:42 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 06:31:02 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	client_read_ok(t_env *e, int cs, int head, int res)
 	e->fds[cs].buf_read[head + res] = 0;
 	if (!ft_streachr(e->fds[cs].buf_read, ft_isvalidchar))
 	{
-		bzero(e->fds[cs].buf_read, BUF_SIZE);
+		ft_bzero(e->fds[cs].buf_read, BUF_SIZE);
 		ft_printf("Client %d eject for spam non ascii haxx !", cs);
 		clean_fd(&e->fds[cs]);
 		close(cs);

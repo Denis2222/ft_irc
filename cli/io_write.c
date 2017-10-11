@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 15:56:43 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/11 04:35:08 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 06:24:51 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	server_write(t_client *e)
 	res = send(e->socket, e->buf_write, length, 0);
 	if (res > 0)
 	{
-		bzero(tmp, BUF_SIZE + 1);
+		ft_bzero(tmp, BUF_SIZE + 1);
 		ft_strcpy(tmp, &e->buf_write[res]);
 		ft_bzero(e->buf_write, BUF_SIZE + 1);
 		ft_strcpy(e->buf_write, tmp);

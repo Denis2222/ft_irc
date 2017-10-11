@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/26 07:47:04 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 08:25:46 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 06:35:52 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int		connectsocket(t_client *client, char *port)
 	if (port == NULL || ft_atoi(port) <= 0)
 	{
 		writemsg(client, "        Invalid port number");
-		ft_printf("Invalid port number");
 		return (1);
 	}
 	ft_bzero(&(client->sin), sizeof(struct sockaddr_in));
@@ -90,6 +89,5 @@ int		connectsocket(t_client *client, char *port)
 		return (1);
 	}
 	writemsg(client, "        Connection established !");
-	ft_printf("Connection established !\n");
 	return (0);
 }
