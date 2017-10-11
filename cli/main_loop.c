@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/06 19:08:28 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 03:08:05 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 02:05:09 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	checkfd(t_client *client)
 		{
 			if (read_server(client) == 0)
 			{
-				writemsg(client, "Disconnected\n");
+				writemsg(client, "        Disconnected\n");
 				client->connect = 0;
 			}
 			cmd_in(client);

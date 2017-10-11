@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 06:47:34 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/11 01:51:15 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 02:31:33 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	who_list(t_env *e, int cs)
 	i = 0;
 	while (i < e->maxfd)
 	{
-		if (e->fds[i].type == FD_CLIENT && ft_strcmp(e->fds[i].channel, e->fds[cs].channel) == 0)
+		if (e->fds[i].type == FD_CLIENT
+			&& ft_strcmp(e->fds[i].channel, e->fds[cs].channel) == 0)
 		{
 			tmp = ft_mprintf("%s %s", str, e->fds[i].name);
 			free(str);

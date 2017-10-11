@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 02:55:56 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/10 07:55:22 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 02:07:53 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ int			cmd_out(char *line, t_client *client)
 	{
 		close(client->socket);
 		client->connect = 0;
+		writemsg(client, "        Disconnected\n");
 	}
 	else if (ft_strncmp(line, "/quit", 5) == 0)
 		client->exit = 0;
 	else if (client->connect)
 		presend(client, line);
 	else
-		ft_dprintf(2, "Nothing to do\n");
+		writemsg(client, "        Invalid command !\n");
 	return (0);
 }
 

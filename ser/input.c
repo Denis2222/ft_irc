@@ -6,7 +6,7 @@
 /*   By: dmoureu- <dmoureu-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/04 06:26:59 by dmoureu-          #+#    #+#             */
-/*   Updated: 2017/10/11 01:45:43 by dmoureu-         ###   ########.fr       */
+/*   Updated: 2017/10/11 02:32:38 by dmoureu-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static void	input_command_join(t_env *e, int cs, char **tab, char *buffer)
 	}
 	else
 	{
-		presend(e, cs, "/newmsg [server] invalid channel name ( /join [#name]  #name MAX 16 MIN 4)\n");
+		presend(e, cs,
+			"/newmsg [server] invalid channel /join [#name] MAX16 MIN4)\n");
 	}
 }
 
